@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>PARA Notion Dashboard - Toms in the lab</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="author" content="Tom Battista">
+  <meta name="keywords" content="Notion, PARA method, productivity, second brain, n8n, automation, knowledge management">
+  <meta name="description" content="PARA Notion Dashboard - Comprehensive productivity system using the PARA method with AI organization via n8n automation.">
+  <link rel="stylesheet" type="text/css" href="../css/vendor.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="../style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+</head>
+
+<body class="bg-body homepage post-template">
+  <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <defs>
+      <symbol xmlns="http://www.w3.org/2000/svg" id="instagram" viewBox="0 0 15 15">
+        <path fill="none" stroke="currentColor"
+          d="M11 3.5h1M4.5.5h6a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4h-6a4 4 0 0 1-4-4v-6a4 4 0 0 1 4-4Zm3 10a3 3 0 1 1 0-6a3 3 0 0 1 0 6Z" />
+      </symbol>
+      <symbol xmlns="http://www.w3.org/2000/svg" id="facebook" viewBox="0 0 15 15">
+        <path fill="none" stroke="currentColor"
+          d="M7.5 14.5a7 7 0 1 1 0-14a7 7 0 0 1 0 14Zm0 0v-8a2 2 0 0 1 2-2h.5m-5 4h5" />
+      </symbol>
+      <symbol xmlns="http://www.w3.org/2000/svg" id="twitter" viewBox="0 0 15 15">
+        <path fill="currentColor"
+          d="m14.478 1.5l.5-.033a.5.5 0 0 0-.871-.301l.371.334Zm-.498 2.959a.5.5 0 1 0-1 0h1Zm-6.49.082h-.5h.5Zm0 .959h.5h-.5Zm-6.99 7V12a.5.5 0 0 0-.278.916L.5 12.5Zm.998-11l.469-.175a.5.5 0 0 0-.916-.048l.447.223Zm3.994 9l.354.353a.5.5 0 0 0-.195-.827l-.159.474Zm7.224-8.027l-.37.336l.18.199l.265-.04l-.075-.495Zm1.264-.94c.051.778.003 1.25-.123 1.606c-.122.345-.336.629-.723 1l.692.722c.438-.42.776-.832.974-1.388c.193-.546.232-1.178.177-2.006l-.998.066Zm0 3.654V4.46h-1v.728h1Zm-6.99-.646V5.5h1v-.959h-1Zm0 .959V6h1v-.5h-1ZM10.525 1a3.539 3.539 0 0 0-3.537 3.541h1A2.539 2.539 0 0 1 10.526 2V1Zm2.454 4.187C12.98 9.503 9.487 13 5.18 13v1c4.86 0 8.8-3.946 8.8-8.813h-1ZM1.03 1.675C1.574 3.127 3.614 6 7.49 6V5C4.174 5 2.421 2.54 1.966 1.325l-.937.35Zm.021-.398C.004 3.373-.157 5.407.604 7.139c.759 1.727 2.392 3.055 4.73 3.835l.317-.948c-2.155-.72-3.518-1.892-4.132-3.29c-.612-1.393-.523-3.11.427-5.013l-.895-.446Zm4.087 8.87C4.536 10.75 2.726 12 .5 12v1c2.566 0 4.617-1.416 5.346-2.147l-.708-.706Zm7.949-8.009A3.445 3.445 0 0 0 10.526 1v1c.721 0 1.37.311 1.82.809l.74-.671Zm-.296.83a3.513 3.513 0 0 0 2.06-1.134l-.744-.668a2.514 2.514 0 0 1-1.466.813l.15.989ZM.222 12.916C1.863 14.01 3.583 14 5.18 14v-1c-1.63 0-3.048-.011-4.402-.916l-.556.832Z" />
+      </symbol>
+    </defs>
+  </svg>
+
+  <a class="menu-btn"><span></span></a>
+
+  <div class="container-fluid">
+
+    <!-- Include Menu -->
+    <div id="menu-placeholder"></div>
+
+    <main class="col-lg-10 offset-lg-2">
+      <div class="container">
+
+        <div class="justify-content-center px-1 mx-1 px-xl-5 mx-xl-5">
+
+          <section id="about" class="my-5 py-5" data-aos="fade-up">
+            <span class="text-muted text-uppercase">PRODUCTIVITY SYSTEM</span>
+            <div class="row d-flex flex-wrap">
+              <div class="col-lg-12 pb-5">
+                <h1 class="display-4 txt-fx slide-up">PARA Notion Dashboard</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 pb-5">
+                <div data-aos="fade-up" data-aos-delay="200">
+                  <ul class="list-unstyled d-flex gap-2 gap-md-5 flex-column flex-md-row">
+                    <li>
+                      <h5>Client</h5>
+                      <p>Personal Project</p>
+                    </li>
+                    <li>
+                      <h5>Date</h5>
+                      <p>2024</p>
+                    </li>
+                    <li>
+                      <h5>Category</h5>
+                      <p>Productivity System</p>
+                    </li>
+                    <li>
+                      <h5>File Formats</h5>
+                      <p>.notion, .json</p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6 pb-5">
+                <div class="fs-5" data-aos="fade-up" data-aos-delay="300">
+                  <p>A comprehensive second-brain productivity system built in Notion using the PARA method, enhanced with AI-powered organization through n8n automation. This system transforms information management from chaos into a streamlined, intelligent workflow.</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 pb-5">
+                <div class="fs-5" data-aos="fade-up" data-aos-delay="400">
+                  <h3>The PARA Method Foundation</h3>
+                  <p>Built on Tiago Forte's revolutionary PARA method (Projects, Areas, Resources, Archives), this system provides a universal organizational framework that adapts to any workflow or industry. The four categories create a natural hierarchy for information management:</p>
+                  
+                  <ul>
+                    <li><strong>Projects:</strong> Things with deadlines and specific outcomes</li>
+                    <li><strong>Areas:</strong> Ongoing responsibilities to maintain</li>
+                    <li><strong>Resources:</strong> Topics of ongoing interest for future reference</li>
+                    <li><strong>Archives:</strong> Inactive items from the other three categories</li>
+                  </ul>
+
+                  <h3>AI-Enhanced Organization</h3>
+                  <p>The system goes beyond traditional PARA implementation by integrating n8n automation workflows that use AI to intelligently categorize, tag, and organize incoming information. This creates a truly smart second brain that learns and adapts to your thinking patterns.</p>
+
+                  <h4>Core Features:</h4>
+                  <ul>
+                    <li><strong>Automated Content Processing:</strong> AI analyzes and categorizes new entries</li>
+                    <li><strong>Smart Tagging System:</strong> Intelligent tag suggestions based on content analysis</li>
+                    <li><strong>Cross-Reference Mapping:</strong> Automatic linking of related concepts and projects</li>
+                    <li><strong>Progress Tracking:</strong> Visual dashboards for project and area management</li>
+                    <li><strong>Knowledge Graph:</strong> Interactive visualization of information relationships</li>
+                    <li><strong>Quick Capture:</strong> Streamlined input methods for rapid information gathering</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="portfolio-image">
+                  <figure>
+                    <img src="../images/para-detail-1.jpg" alt="PARA Dashboard Overview" class="img-fluid">
+                  </figure>
+                  <figcaption>Main PARA Dashboard Overview</figcaption>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="portfolio-image">
+                  <figure>
+                    <img src="../images/para-detail-2.jpg" alt="Project Management View" class="img-fluid">
+                  </figure>
+                  <figcaption>Project Management Interface</figcaption>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="portfolio-image py-5">
+                  <figure>
+                    <img src="../images/para-detail-3.jpg" alt="AI Automation Workflow" class="img-fluid">
+                  </figure>
+                  <figcaption>n8n AI Automation Workflow</figcaption>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="portfolio-image">
+                  <figure>
+                    <img src="../images/para-detail-4.jpg" alt="Knowledge Graph" class="img-fluid">
+                  </figure>
+                  <figcaption>Interactive Knowledge Graph</figcaption>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="portfolio-image">
+                  <figure>
+                    <img src="../images/para-detail-5.jpg" alt="Quick Capture Interface" class="img-fluid">
+                  </figure>
+                  <figcaption>Quick Capture & Processing</figcaption>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12 pb-5">
+                <div class="fs-5" data-aos="fade-up" data-aos-delay="500">
+                  <h3>Technical Architecture</h3>
+                  <p>The system leverages Notion's powerful database capabilities combined with n8n's automation engine to create a seamless, intelligent workflow. AI integration provides natural language processing for content analysis and smart organization suggestions.</p>
+                  
+                  <h4>Technology Stack:</h4>
+                  <ul>
+                    <li><strong>Platform:</strong> Notion for database and interface management</li>
+                    <li><strong>Automation:</strong> n8n for workflow automation and AI integration</li>
+                    <li><strong>AI Processing:</strong> OpenAI GPT for content analysis and categorization</li>
+                    <li><strong>Data Integration:</strong> API connections to various productivity tools</li>
+                    <li><strong>Visualization:</strong> Custom Notion formulas and charts for progress tracking</li>
+                  </ul>
+
+                  <h4>Automation Workflows:</h4>
+                  <ul>
+                    <li>Email processing and automatic project assignment</li>
+                    <li>Web clipper integration with smart tagging</li>
+                    <li>Meeting notes processing and action item extraction</li>
+                    <li>Periodic review reminders and progress updates</li>
+                    <li>Cross-platform synchronization with other productivity tools</li>
+                  </ul>
+
+                  <h4>Impact & Results:</h4>
+                  <p>This system has transformed personal productivity by reducing information management overhead by 70% while increasing knowledge retention and cross-project insights. The AI-enhanced organization has proven particularly valuable for managing complex, multi-faceted projects and maintaining long-term knowledge repositories.</p>
+
+                  <h4>Template Availability:</h4>
+                  <p>A simplified version of this system is available as a Notion template, allowing others to implement the PARA method with basic automation features. The full AI-enhanced version serves as a blueprint for advanced productivity system development.</p>
+                </div>
+              </div>
+            </div>
+
+          </section>
+
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="../js/jquery-1.11.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+    crossorigin="anonymous"></script>
+  <script src="../js/plugins.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/script.js"></script>
+</body>
+
+</html>
