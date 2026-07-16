@@ -34,5 +34,8 @@ build/
 *.temp
 .cache/
 
+# Tracker runtime data (ephemeral, re-fetched on boot)
+data/
+
 # Railway
 .railway/
