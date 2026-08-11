@@ -6,6 +6,8 @@
     config: null,
     map: null,
     styleChoice: 'standard',
+    detail: 'medium',
+    showRoute: true,
     start: null, // { name, lon, lat }
     end: null,
     route: null, // { geometry, distanceMeters, durationSeconds }
@@ -37,7 +39,7 @@
 
     state.map = new maplibregl.Map({
       container: 'map',
-      style: state.config.standardStyleUrl,
+      style: currentStyleUrl(),
       center: [-96, 38.5],
       zoom: 3.3,
       attributionControl: { compact: false },
@@ -58,11 +60,37 @@
       radio.addEventListener('change', function () {
         if (!radio.checked) return;
         state.styleChoice = radio.value;
-        state.map.setStyle(radio.value === 'coloring'
-          ? state.config.coloringStyleUrl
-          : state.config.standardStyleUrl);
+        // Detail only applies to the generated Atlas/Coloring styles.
+        els.detail.disabled = radio.value === 'standard';
+        state.map.setStyle(currentStyleUrl());
       });
     });
+    els.detail = document.getElementById('map-detail');
+    els.detail.addEventListener('change', function () {
+      state.detail = els.detail.value;
+      if (state.styleChoice !== 'standard') state.map.setStyle(currentStyleUrl());
+    });
+    els.routeVisible = document.getElementById('route-visible');
+    els.routeVisible.addEventListener('change', function () {
+      state.showRoute = els.routeVisible.checked;
+      setRouteVisibility();
+    });
+  }
+
+  function currentStyleUrl() {
+    var url = state.config.styles[state.styleChoice] || state.config.styles.standard;
+    if (state.styleChoice !== 'standard') {
+      url += (url.indexOf('?') === -1 ? '?' : '&') + 'detail=' + encodeURIComponent(state.detail);
+    }
+    return url;
+  }
+
+  function setRouteVisibility() {
+    var visibility = state.showRoute ? 'visible' : 'none';
+    ['trip-route-casing', 'trip-route-line', 'trip-endpoint-dots', 'trip-endpoint-labels']
+      .forEach(function (id) {
+        if (state.map.getLayer(id)) state.map.setLayoutProperty(id, 'visibility', visibility);
+      });
   }
 
   // --- Geocoding ---
@@ -165,6 +193,7 @@
     });
 
     var coloring = state.styleChoice === 'coloring';
+    var routeColor = coloring ? '#1a1a1a' : (state.styleChoice === 'atlas' ? '#2b4b9b' : '#2563eb');
 
     map.addSource('trip-route', {
       type: 'geojson',
@@ -190,14 +219,14 @@
       id: 'trip-route-line', type: 'line', source: 'trip-route',
       layout: { 'line-cap': 'round', 'line-join': 'round' },
       paint: coloring
-        ? { 'line-color': '#1a1a1a', 'line-width': 4.5, 'line-dasharray': [2.2, 1.1] }
-        : { 'line-color': '#2563eb', 'line-width': 4.5 },
+        ? { 'line-color': routeColor, 'line-width': 4.5, 'line-dasharray': [2.2, 1.1] }
+        : { 'line-color': routeColor, 'line-width': 4.5 },
     });
     map.addLayer({
       id: 'trip-endpoint-dots', type: 'circle', source: 'trip-endpoints',
       paint: {
         'circle-radius': 7,
-        'circle-color': coloring ? '#111111' : '#2563eb',
+        'circle-color': coloring ? '#111111' : routeColor,
         'circle-stroke-color': '#ffffff',
         'circle-stroke-width': 2.5,
       },
@@ -218,6 +247,8 @@
         'text-halo-width': 2,
       },
     });
+
+    setRouteVisibility();
   }
 
   // --- Export ---
@@ -233,6 +264,9 @@
         format: document.getElementById('export-format').value,
         orientation: document.getElementById('export-orientation').value,
         style: state.styleChoice,
+        detail: state.detail,
+        showRoute: state.showRoute,
+        kidsActivities: document.getElementById('kids-activities').checked,
         title: document.getElementById('export-title').value,
         start: state.start,
         end: state.end,

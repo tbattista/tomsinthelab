@@ -59,7 +59,8 @@
               <div class="col-lg-12 pb-4">
                 <h1 class="display-4 txt-fx slide-up">Road Trip Map Maker</h1>
                 <p class="fs-5 text-muted">Plan a driving route, preview it on an interactive map, and export a
-                  printable poster — including a "coloring map" style perfect for the back seat.</p>
+                  printable poster in three styles — Standard, a classic Road Atlas, or a "coloring map"
+                  perfect for the back seat — with adjustable map detail and optional kids activities.</p>
               </div>
             </div>
 
@@ -83,16 +84,31 @@
 
             <div id="route-error" class="alert alert-warning d-none" role="alert"></div>
 
-            <div class="row pb-3 align-items-center">
-              <div class="col-md-6">
+            <div class="row pb-3 align-items-center g-3">
+              <div class="col-lg-5">
                 <div class="btn-group" role="group" aria-label="Map style">
                   <input type="radio" class="btn-check" name="map-style" id="style-standard" value="standard" checked>
-                  <label class="btn btn-outline-dark" for="style-standard">Standard Map</label>
+                  <label class="btn btn-outline-dark" for="style-standard">Standard</label>
+                  <input type="radio" class="btn-check" name="map-style" id="style-atlas" value="atlas">
+                  <label class="btn btn-outline-dark" for="style-atlas">Road Atlas</label>
                   <input type="radio" class="btn-check" name="map-style" id="style-coloring" value="coloring">
                   <label class="btn btn-outline-dark" for="style-coloring">Coloring Map</label>
                 </div>
               </div>
-              <div class="col-md-6 text-md-end pt-2 pt-md-0">
+              <div class="col-lg-2 col-md-4">
+                <select id="map-detail" class="form-select" aria-label="Map detail" title="Map detail (Road Atlas and Coloring styles)" disabled>
+                  <option value="simple">Simple</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="detailed">Detailed</option>
+                </select>
+              </div>
+              <div class="col-lg-2 col-md-4">
+                <div class="form-check form-switch pt-1">
+                  <input class="form-check-input" type="checkbox" id="route-visible" checked>
+                  <label class="form-check-label" for="route-visible">Show route</label>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-4 text-lg-end">
                 <span id="route-summary" class="fw-bold"></span>
               </div>
             </div>
@@ -130,6 +146,14 @@
                   </div>
                   <div class="col-md-2 d-grid">
                     <button type="submit" class="btn btn-dark" id="export-btn" disabled>Export PDF</button>
+                  </div>
+                  <div class="col-12">
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="kids-activities">
+                      <label class="form-check-label" for="kids-activities">
+                        Add kids activities (scavenger hunt &amp; license plate game) to the printout
+                      </label>
+                    </div>
                   </div>
                 </form>
                 <p id="export-status" class="text-muted pt-2 mb-0"></p>

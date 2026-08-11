@@ -40,6 +40,32 @@
     #print-footer a { color: #555; text-decoration: none; }
     #legend { font-weight: 700; letter-spacing: 0.05em; }
 
+    #kids-activities {
+      display: none;
+      flex: 0 0 auto;
+      margin: 0.8em 1.6em 0;
+      border: 2px solid #111;
+      border-radius: 6px;
+      padding: 0.7em 1em 0.8em;
+    }
+    body.kids #kids-activities { display: block; }
+    #kids-activities h2 {
+      font-size: 1em;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.45em;
+    }
+    #kids-activities ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.35em 1.2em;
+      font-size: 0.85em;
+    }
+    #kids-activities li::before { content: '☐ '; font-size: 1.1em; }
+    #kids-activities .plates { margin-top: 0.55em; font-size: 0.85em; }
+
     /* Scale typography with render resolution so posters don't get tiny text */
     html { font-size: 16px; }
   </style>
@@ -52,6 +78,24 @@
   </div>
   <div id="map-frame">
     <div id="map"></div>
+  </div>
+  <div id="kids-activities">
+    <h2>Road Trip Scavenger Hunt</h2>
+    <ul>
+      <li>A red barn</li>
+      <li>A water tower</li>
+      <li>A state line sign</li>
+      <li>A river crossing</li>
+      <li>Railroad tracks</li>
+      <li>A cow or a horse</li>
+      <li>A police car</li>
+      <li>A yellow truck</li>
+      <li>A rest area sign</li>
+      <li>A mountain or big hill</li>
+      <li>A bridge</li>
+      <li>A lake</li>
+    </ul>
+    <div class="plates">License plates from other states: ☐ ☐ ☐ ☐ ☐ ☐ ☐ ☐ &nbsp;—&nbsp; color one box for each state you spot!</div>
   </div>
   <div id="print-footer">
     <div id="legend"></div>
@@ -77,6 +121,12 @@
 
         var coloring = job.style === 'coloring';
         if (coloring) document.body.classList.add('coloring');
+        if (job.kidsActivities) document.body.classList.add('kids');
+
+        var styleUrl = cfg.styles[job.style] || cfg.styles.standard;
+        if (job.style !== 'standard') {
+          styleUrl += (styleUrl.indexOf('?') === -1 ? '?' : '&') + 'detail=' + encodeURIComponent(job.detail || 'medium');
+        }
 
         // The page is laid out at 96 CSS px/inch; Playwright's
         // deviceScaleFactor supplies the extra print resolution. Give large
@@ -92,7 +142,8 @@
         var mins = Math.round((job.route.durationSeconds % 3600) / 60);
         document.getElementById('print-subtitle').textContent =
           Math.round(miles) + ' miles  •  about ' + hours + ' h ' + mins + ' min driving';
-        document.getElementById('legend').textContent = coloring ? 'Road Trip Coloring Map' : 'Road Trip Map';
+        document.getElementById('legend').textContent =
+          coloring ? 'Road Trip Coloring Map' : (job.style === 'atlas' ? 'Road Trip Atlas' : 'Road Trip Map');
         document.getElementById('attribution').innerHTML =
           cfg.attribution + ' • ' + cfg.routingAttribution + ' • ' + cfg.geocodingAttribution;
 
@@ -102,7 +153,7 @@
 
         var map = new maplibregl.Map({
           container: 'map',
-          style: coloring ? cfg.coloringStyleUrl : cfg.standardStyleUrl,
+          style: styleUrl,
           interactive: false,
           attributionControl: false,
           fadeDuration: 0,
@@ -122,6 +173,9 @@
           var bounds = coords.reduce(function (b, c) { return b.extend(c); },
             new maplibregl.LngLatBounds(coords[0], coords[0]));
 
+          if (job.showRoute !== false) addRouteLayers();
+
+          function addRouteLayers() {
           map.addSource('trip-route', {
             type: 'geojson',
             data: { type: 'Feature', geometry: job.route.geometry, properties: {} },
@@ -137,7 +191,7 @@
             },
           });
 
-          var routeColor = coloring ? '#1a1a1a' : '#2563eb';
+          var routeColor = coloring ? '#1a1a1a' : (job.style === 'atlas' ? '#2b4b9b' : '#2563eb');
           map.addLayer({
             id: 'trip-route-casing', type: 'line', source: 'trip-route',
             layout: { 'line-cap': 'round', 'line-join': 'round' },
@@ -175,6 +229,7 @@
               'text-halo-width': 2,
             },
           });
+          }
 
           var pad = Math.round(Math.min(window.innerWidth, window.innerHeight) * 0.07);
           map.fitBounds(bounds, { padding: pad, duration: 0 });

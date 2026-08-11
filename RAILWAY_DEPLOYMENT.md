@@ -235,8 +235,8 @@ variables set in the Railway dashboard:
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `TILE_STYLE_URL` | `https://tiles.openfreemap.org/styles/liberty` | Full MapLibre style for the Standard map |
-| `TILE_JSON_URL` | `https://tiles.openfreemap.org/planet` | Vector TileJSON (OpenMapTiles schema) used by the Coloring Map style |
-| `TILE_GLYPHS_URL` | `https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf` | Font glyphs for the Coloring Map style |
+| `TILE_JSON_URL` | `https://tiles.openfreemap.org/planet` | Vector TileJSON (OpenMapTiles schema) used by the generated Coloring Map and Road Atlas styles |
+| `TILE_GLYPHS_URL` | `https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf` | Font glyphs for the generated styles |
 | `TILE_ATTRIBUTION` | OpenFreeMap / OpenStreetMap notice | Attribution HTML shown on map + prints |
 | `OSRM_URL` | `https://router.project-osrm.org` | OSRM-compatible routing engine |
 | `GEOCODER_URL` | `https://nominatim.openstreetmap.org` | Nominatim-compatible geocoder |

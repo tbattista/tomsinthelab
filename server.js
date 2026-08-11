@@ -3,7 +3,7 @@ const path = require('path');
 const crypto = require('crypto');
 
 const config = require('./lib/config');
-const { buildColoringStyle } = require('./lib/coloring-style');
+const { buildColoringStyle, buildAtlasStyle, normalizeDetail } = require('./lib/map-styles');
 
 // Route outbound fetches through an HTTPS proxy when the host environment
 // requires one (no-op on Railway, where no proxy vars are set).
@@ -29,18 +29,27 @@ app.use(express.json({ limit: '10mb' }));
 // Client configuration: which styles to load and what attribution to show.
 app.get('/api/config', (req, res) => {
   res.json({
-    standardStyleUrl: config.TILE_STYLE_URL,
-    coloringStyleUrl: '/api/styles/coloring.json',
+    styles: {
+      standard: config.TILE_STYLE_URL,
+      atlas: '/api/styles/atlas.json',
+      coloring: '/api/styles/coloring.json',
+    },
     attribution: config.TILE_ATTRIBUTION,
     routingAttribution: 'Routing by <a href="https://project-osrm.org" target="_blank">OSRM</a>',
     geocodingAttribution: 'Geocoding by <a href="https://nominatim.org" target="_blank">Nominatim</a>',
   });
 });
 
-// Printable "Coloring Map" style, generated from the configured vector source.
+// Printable styles, generated from the configured vector source.
+// ?detail=simple|medium|detailed controls how much appears on the map.
 app.get('/api/styles/coloring.json', (req, res) => {
   res.set('Cache-Control', 'public, max-age=300');
-  res.json(buildColoringStyle(config));
+  res.json(buildColoringStyle(config, normalizeDetail(req.query.detail)));
+});
+
+app.get('/api/styles/atlas.json', (req, res) => {
+  res.set('Cache-Control', 'public, max-age=300');
+  res.json(buildAtlasStyle(config, normalizeDetail(req.query.detail)));
 });
 
 // --- Geocoding proxy (Nominatim usage policy: identify + max 1 req/sec) ---
@@ -157,7 +166,8 @@ app.get('/api/export/job/:id', (req, res) => {
 
 app.post('/api/export', async (req, res) => {
   const { exportPdf, getFormats } = require('./lib/exporter');
-  const { format, orientation, style, start, end, route, title } = req.body || {};
+  const { format, orientation, style, detail, start, end, route, title,
+          showRoute, kidsActivities } = req.body || {};
 
   if (!getFormats()[format]) return res.status(400).json({ error: 'Invalid format' });
   if (!route || !route.geometry || route.geometry.type !== 'LineString' ||
@@ -176,7 +186,10 @@ app.post('/api/export', async (req, res) => {
     createdAt: Date.now(),
     format,
     orientation: orientation === 'landscape' ? 'landscape' : 'portrait',
-    style: style === 'coloring' ? 'coloring' : 'standard',
+    style: ['standard', 'atlas', 'coloring'].includes(style) ? style : 'standard',
+    detail: normalizeDetail(detail),
+    showRoute: showRoute !== false,
+    kidsActivities: kidsActivities === true,
     start: { name: String(start.name || 'Start').slice(0, 200), lon: start.lon, lat: start.lat },
     end: { name: String(end.name || 'Destination').slice(0, 200), lon: end.lon, lat: end.lat },
     route: {
@@ -205,6 +218,11 @@ app.post('/api/export', async (req, res) => {
 // ---------------------------------------------------------------------------
 // Static site
 // ---------------------------------------------------------------------------
+
+// Short alias for the Road Trip Map Maker page.
+app.get('/roadtrip-map', (req, res) => {
+  res.redirect('/road-trip-map-maker.html');
+});
 
 // Serve static files from the website directory
 app.use(express.static(path.join(__dirname, 'website')));
