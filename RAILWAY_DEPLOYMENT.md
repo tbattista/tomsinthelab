@@ -9,14 +9,14 @@ Your website is now ready to deploy to Railway using **Node.js/Express**!
 
 ## 📋 Deployment Files
 
-✅ [`server.js`](server.js:1) - Express.js server for static files  
+✅ [`server.js`](server.js:1) - Express.js server (static site + Road Trip Map Maker API)  
 ✅ [`package.json`](package.json:1) - Node.js dependencies  
-✅ [`nixpacks.toml`](nixpacks.toml:1) - Nixpacks build configuration  
-✅ [`railway.toml`](railway.toml:1) - Railway platform settings  
+✅ [`Dockerfile`](Dockerfile:1) - Playwright/Chromium container build (required for PDF export)  
+✅ [`railway.toml`](railway.toml:1) - Railway platform settings (uses the Dockerfile builder)  
 
-**Alternative (Docker/Nginx):**  
-✅ [`Dockerfile`](Dockerfile:1) - Docker container configuration  
-✅ [`nginx.conf`](nginx.conf:1) - Nginx web server settings  
+> **Note:** The build switched from Nixpacks to the Dockerfile builder when the
+> Road Trip Map Maker was added — its print/export feature renders maps
+> server-side with headless Chromium, which the Playwright base image provides.
 
 ## 🎯 Why Node.js/Express?
 
@@ -216,46 +216,60 @@ app.listen(PORT, '0.0.0.0', () => {
 - **Node.js**: 18.x or higher
 - **Start script**: `node server.js`
 
-### nixpacks.toml
-- **Provider**: Node.js 18
-- **Install**: `npm install`
+### Dockerfile
+- **Base image**: `mcr.microsoft.com/playwright` (Chromium + OS deps preinstalled)
+- **Install**: `npm ci --omit=dev`
 - **Start**: `node server.js`
 
 ### railway.toml
-- **Builder**: NIXPACKS (not Docker)
+- **Builder**: DOCKERFILE
 - **Start command**: `node server.js`
 - **Restart policy**: ON_FAILURE with 10 retries
 
-## 🐳 Alternative: Docker/Nginx Deployment
+## 🗺️ Road Trip Map Maker Configuration
 
-If you prefer Docker/Nginx instead of Node.js:
+The Road Trip Map Maker (`/road-trip-map-maker.html`) works out of the box with
+free OSM-derived providers. Every provider is swappable via environment
+variables set in the Railway dashboard:
 
-1. **Modify railway.toml:**
-   ```toml
-   [build]
-   builder = "DOCKERFILE"
-   ```
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `TILE_STYLE_URL` | `https://tiles.openfreemap.org/styles/liberty` | Full MapLibre style for the Standard map |
+| `TILE_JSON_URL` | `https://tiles.openfreemap.org/planet` | Vector TileJSON (OpenMapTiles schema) used by the Coloring Map style |
+| `TILE_GLYPHS_URL` | `https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf` | Font glyphs for the Coloring Map style |
+| `TILE_ATTRIBUTION` | OpenFreeMap / OpenStreetMap notice | Attribution HTML shown on map + prints |
+| `OSRM_URL` | `https://router.project-osrm.org` | OSRM-compatible routing engine |
+| `GEOCODER_URL` | `https://nominatim.openstreetmap.org` | Nominatim-compatible geocoder |
+| `GEOCODER_USER_AGENT` | project contact string | Identifies the app per Nominatim policy |
+| `EXPORT_TIMEOUT_MS` | `120000` | Max time for a print render |
+| `CHROMIUM_EXECUTABLE_PATH` | (auto) | Override the Chromium binary if needed |
 
-2. **Remove or rename package.json** to prevent Node.js detection
-
-3. **Railway will use Dockerfile** for deployment
-
-**Note:** Node.js approach is recommended for better Railway compatibility.
+Notes:
+- Tiles are **not** scraped from `tile.openstreetmap.org`; the default vector
+  tile host is [OpenFreeMap](https://openfreemap.org), whose terms allow this.
+- The public OSRM demo server is fine for light use; point `OSRM_URL` at a
+  hosted OSRM (or self-host) if traffic grows.
+- Geocoding requests are proxied server-side with a proper User-Agent and
+  throttled to 1 request/second per Nominatim's usage policy.
 
 ## 📁 Project Structure
 
 ```
 tomsinthelab/
-├── server.js               # Express.js server (PRIMARY)
-├── package.json            # Node.js dependencies (PRIMARY)
-├── nixpacks.toml          # Nixpacks config (PRIMARY)
-├── railway.toml           # Railway settings
-├── Dockerfile             # Alternative: Docker config
-├── nginx.conf            # Alternative: Nginx config
-├── .dockerignore         # Docker exclusions
-├── .gitignore           # Git exclusions
-└── website/             # Your website files
+├── server.js               # Express.js server + Road Trip Map Maker API
+├── package.json            # Node.js dependencies
+├── railway.toml            # Railway settings (Dockerfile builder)
+├── Dockerfile              # Playwright/Chromium container build
+├── .dockerignore           # Docker exclusions
+├── .gitignore              # Git exclusions
+├── lib/                    # Server modules
+│   ├── config.js           # Env-configurable provider settings
+│   ├── coloring-style.js   # Generated "Coloring Map" MapLibre style
+│   └── exporter.js         # Playwright + pdf-lib print pipeline
+└── website/                # Your website files
     ├── index.html
+    ├── road-trip-map-maker.html   # Road Trip Map Maker UI
+    ├── map-print.html             # Server-side print render page
     ├── portfolio-masonry.html
     ├── contact.html
     ├── css/

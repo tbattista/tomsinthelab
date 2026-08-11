@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Road Trip Map — Print Render</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="js/vendor/maplibre-gl.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #fff; }
+    body { font-family: 'Roboto', sans-serif; display: flex; flex-direction: column; }
+
+    #print-header {
+      padding: 1.2em 1.6em 0.9em;
+      text-align: center;
+      flex: 0 0 auto;
+    }
+    #print-title { font-weight: 900; font-size: 2.1em; letter-spacing: 0.04em; text-transform: uppercase; color: #111; }
+    #print-subtitle { font-weight: 300; font-size: 1.05em; color: #444; margin-top: 0.35em; letter-spacing: 0.08em; }
+
+    #map-frame { flex: 1 1 auto; position: relative; margin: 0 1.6em; }
+    body.coloring #map-frame { border: 3px solid #111; }
+    #map { position: absolute; inset: 0; }
+
+    #print-footer {
+      flex: 0 0 auto;
+      padding: 0.7em 1.6em 1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 2em;
+      font-size: 0.78em;
+      color: #555;
+    }
+    #print-footer a { color: #555; text-decoration: none; }
+    #legend { font-weight: 700; letter-spacing: 0.05em; }
+
+    /* Scale typography with render resolution so posters don't get tiny text */
+    html { font-size: 16px; }
+  </style>
+</head>
+
+<body>
+  <div id="print-header">
+    <div id="print-title"></div>
+    <div id="print-subtitle"></div>
+  </div>
+  <div id="map-frame">
+    <div id="map"></div>
+  </div>
+  <div id="print-footer">
+    <div id="legend"></div>
+    <div id="attribution"></div>
+  </div>
+
+  <script src="js/vendor/maplibre-gl.js"></script>
+  <script>
+    window.__MAP_STATUS__ = 'loading';
+
+    (async function () {
+      try {
+        var params = new URLSearchParams(location.search);
+        var jobId = params.get('job');
+        if (!jobId) throw new Error('missing job id');
+
+        var jobRes = await fetch('/api/export/job/' + encodeURIComponent(jobId));
+        if (!jobRes.ok) throw new Error('job fetch failed: ' + jobRes.status);
+        var job = await jobRes.json();
+
+        var cfgRes = await fetch('/api/config');
+        var cfg = await cfgRes.json();
+
+        var coloring = job.style === 'coloring';
+        if (coloring) document.body.classList.add('coloring');
+
+        // The page is laid out at 96 CSS px/inch; Playwright's
+        // deviceScaleFactor supplies the extra print resolution. Give large
+        // posters proportionally larger headline type.
+        var shortSideIn = Math.min(window.innerWidth, window.innerHeight) / 96;
+        document.documentElement.style.fontSize =
+          (16 * Math.max(1, Math.sqrt(shortSideIn / 8.5))) + 'px';
+
+        var title = job.title || (shortName(job.start.name) + '  →  ' + shortName(job.end.name));
+        document.getElementById('print-title').textContent = title;
+        var miles = job.route.distanceMeters / 1609.344;
+        var hours = Math.floor(job.route.durationSeconds / 3600);
+        var mins = Math.round((job.route.durationSeconds % 3600) / 60);
+        document.getElementById('print-subtitle').textContent =
+          Math.round(miles) + ' miles  •  about ' + hours + ' h ' + mins + ' min driving';
+        document.getElementById('legend').textContent = coloring ? 'Road Trip Coloring Map' : 'Road Trip Map';
+        document.getElementById('attribution').innerHTML =
+          cfg.attribution + ' • ' + cfg.routingAttribution + ' • ' + cfg.geocodingAttribution;
+
+        function shortName(name) {
+          return String(name || '').split(',').slice(0, 2).join(',');
+        }
+
+        var map = new maplibregl.Map({
+          container: 'map',
+          style: coloring ? cfg.coloringStyleUrl : cfg.standardStyleUrl,
+          interactive: false,
+          attributionControl: false,
+          fadeDuration: 0,
+        });
+
+        // Fail fast if the style or its sources never finish loading
+        // (e.g. tile provider outage) instead of hanging until the export
+        // timeout.
+        setTimeout(function () {
+          if (window.__MAP_STATUS__ === 'loading' && !map.loaded()) {
+            window.__MAP_STATUS__ = 'error: map style did not finish loading';
+          }
+        }, 60000);
+
+        map.on('load', function () {
+          var coords = job.route.geometry.coordinates;
+          var bounds = coords.reduce(function (b, c) { return b.extend(c); },
+            new maplibregl.LngLatBounds(coords[0], coords[0]));
+
+          map.addSource('trip-route', {
+            type: 'geojson',
+            data: { type: 'Feature', geometry: job.route.geometry, properties: {} },
+          });
+          map.addSource('trip-endpoints', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                { type: 'Feature', geometry: { type: 'Point', coordinates: [job.start.lon, job.start.lat] }, properties: { label: shortName(job.start.name) } },
+                { type: 'Feature', geometry: { type: 'Point', coordinates: [job.end.lon, job.end.lat] }, properties: { label: shortName(job.end.name) } },
+              ],
+            },
+          });
+
+          var routeColor = coloring ? '#1a1a1a' : '#2563eb';
+          map.addLayer({
+            id: 'trip-route-casing', type: 'line', source: 'trip-route',
+            layout: { 'line-cap': 'round', 'line-join': 'round' },
+            paint: { 'line-color': '#ffffff', 'line-width': coloring ? 9 : 8 },
+          });
+          map.addLayer({
+            id: 'trip-route-line', type: 'line', source: 'trip-route',
+            layout: { 'line-cap': 'round', 'line-join': 'round' },
+            paint: coloring
+              ? { 'line-color': routeColor, 'line-width': 5, 'line-dasharray': [2.2, 1.1] }
+              : { 'line-color': routeColor, 'line-width': 4.5 },
+          });
+          map.addLayer({
+            id: 'trip-endpoint-dots', type: 'circle', source: 'trip-endpoints',
+            paint: {
+              'circle-radius': 8,
+              'circle-color': coloring ? '#111111' : '#2563eb',
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-width': 3,
+            },
+          });
+          var labelFont = coloring ? ['Noto Sans Bold'] : undefined;
+          map.addLayer({
+            id: 'trip-endpoint-labels', type: 'symbol', source: 'trip-endpoints',
+            layout: Object.assign({
+              'text-field': ['get', 'label'],
+              'text-size': 15,
+              'text-offset': [0, 1.1],
+              'text-anchor': 'top',
+              'text-max-width': 12,
+            }, labelFont ? { 'text-font': labelFont } : {}),
+            paint: {
+              'text-color': '#111111',
+              'text-halo-color': '#ffffff',
+              'text-halo-width': 2,
+            },
+          });
+
+          var pad = Math.round(Math.min(window.innerWidth, window.innerHeight) * 0.07);
+          map.fitBounds(bounds, { padding: pad, duration: 0 });
+
+          map.once('idle', function () {
+            window.__MAP_STATUS__ = 'ready';
+          });
+
+          // Fallback: if a straggling resource (e.g. one glyph range or tile
+          // request) keeps the map from ever reaching "idle", declare ready
+          // once all tiles have been loaded and stayed loaded for a bit.
+          var stableChecks = 0;
+          var watchdog = setInterval(function () {
+            if (window.__MAP_STATUS__ !== 'loading') { clearInterval(watchdog); return; }
+            stableChecks = map.areTilesLoaded() ? stableChecks + 1 : 0;
+            if (stableChecks >= 6) {
+              clearInterval(watchdog);
+              window.__MAP_STATUS__ = 'ready';
+            }
+          }, 1000);
+        });
+
+        map.on('error', function (e) {
+          // Style-level failures are fatal; individual tile errors are not.
+          if (e && e.error && /style/i.test(String(e.error.message))) {
+            window.__MAP_STATUS__ = 'error: ' + e.error.message;
+          } else {
+            console.warn('map warning:', e && e.error && e.error.message);
+          }
+        });
+      } catch (err) {
+        window.__MAP_STATUS__ = 'error: ' + (err && err.message ? err.message : String(err));
+      }
+    })();
+  </script>
+</body>
+
+</html>

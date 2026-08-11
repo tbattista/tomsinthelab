@@ -1,0 +1,10 @@
+node_modules
+.git
+*.zip
+*.docx
+*.PNG
+*.png
+*.svg
+Claude Code Test
+julia-personal-website-template
+gym_log_*.html

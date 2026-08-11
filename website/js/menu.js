@@ -29,6 +29,7 @@ function loadMenu() {
                   <ul class="list-unstyled py-3">
                     <li><a href="${basePath}index.html#portfolio">My Picks</a></li>
                     <li><a href="${basePath}portfolio-masonry.html">All Projects</a></li>
+                    <li><a href="${basePath}road-trip-map-maker.html">Road Trip Map Maker</a></li>
                     <li><a href="${basePath}projects/wizards-wiffle-ball-club.html">Wizards Wiffle Ball Club</a></li>
                     <li><a href="${basePath}projects/gym-workout-logger.html">Gym Workout Logger</a></li>
                     <li><a href="${basePath}projects/para-notion-dashboard.html">PARA Notion Dashboard</a></li>
