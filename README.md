@@ -65,6 +65,11 @@ Notes show up on the Lab Log and on the project page.
 
 ## Railway setup
 
+Railway builds with **Railpack** (`railway.toml`) on Node 22 (`engines` in
+`package.json`), runs `node server.js`, and waits for `/api/projects` to answer
+before switching traffic. Pushing to `main` deploys.
+
+
 Environment variables:
 
 | Variable | Needed for | Value |
