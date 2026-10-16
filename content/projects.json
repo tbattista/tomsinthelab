@@ -26,7 +26,40 @@
         "OpenAI API",
         "Railway"
       ],
-      "image": "/images/projects/did-they-read/cover.jpg"
+      "image": "/images/projects/did-they-read/cover.jpg",
+      "tour": [
+        {
+          "src": "/images/projects/did-they-read/cover.jpg",
+          "title": "Make a journal for any chapter book",
+          "text": "Search for a book, and the print preview builds right away: a cover, how-to-print instructions and one page per chapter."
+        },
+        {
+          "src": "/images/projects/did-they-read/book-page.jpg",
+          "title": "A question for every chapter",
+          "text": "Each book has its own page with the chapter count, a sample question and a one-click printable PDF. You can customize the questions or add your reader's name."
+        },
+        {
+          "src": "/images/projects/did-they-read/library.jpg",
+          "title": "A library of 360+ ready-made books",
+          "text": "Browse by series or by what other readers rated highest. Each book has its cover pulled from Open Library and Google Books."
+        },
+        {
+          "src": "/images/projects/did-they-read/examples.jpg",
+          "title": "Plain pages that print cleanly",
+          "text": "Every page is black-and-white so it looks right on a home printer. Print double-sided, fold, staple, and it's a booklet."
+        },
+        {
+          "src": "/images/projects/did-they-read/reading-log.jpg",
+          "title": "Printable reading logs too",
+          "text": "Pick what to track (every reading session or every finished book), how many pages, and whether to include a \"my favorite part\" line."
+        },
+        {
+          "src": "/images/projects/did-they-read/mobile.jpg",
+          "device": "phone",
+          "title": "Works from your phone",
+          "text": "Find a book and send the PDF to the printer from anywhere."
+        }
+      ]
     },
     {
       "slug": "plants",
@@ -112,7 +145,35 @@
         "Google Gemini",
         "Railway"
       ],
-      "image": "/images/projects/fitness-field-notes/cover.jpg"
+      "image": "/images/projects/fitness-field-notes/cover.jpg",
+      "tour": [
+        {
+          "src": "/images/projects/fitness-field-notes/cover.jpg",
+          "title": "A gym notebook, not a social network",
+          "text": "Write down what you did and see your progress over time. No feeds, no streaks, and no account needed to start."
+        },
+        {
+          "src": "/images/projects/fitness-field-notes/studio.jpg",
+          "title": "Build workouts in the Workout Studio",
+          "text": "Search 1,600+ exercises by name, muscle or equipment and tap to add them, then organize them into a workout or a multi-week program."
+        },
+        {
+          "src": "/images/projects/fitness-field-notes/exercises.jpg",
+          "title": "Every exercise explained",
+          "text": "Each exercise has a demo and step-by-step instructions, and you can favorite the ones you use."
+        },
+        {
+          "src": "/images/projects/fitness-field-notes/community.jpg",
+          "title": "Borrow a workout from the community",
+          "text": "Browse workouts other lifters have shared, filtered by push, pull, legs, full body and more, and save them to your own library."
+        },
+        {
+          "src": "/images/projects/fitness-field-notes/mobile.jpg",
+          "device": "phone",
+          "title": "Made for the gym floor",
+          "text": "The whole thing works on your phone, with a Log Session button always in reach."
+        }
+      ]
     },
     {
       "slug": "baseball-board",

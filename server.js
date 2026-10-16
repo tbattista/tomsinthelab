@@ -61,7 +61,16 @@ app.get('/api/projects/:slug', async (req, res, next) => {
     if (!project) return res.status(404).json({ error: 'Not found' });
     const activity = await getActivity(projects);
     const notes = loadNotes().filter((n) => n.project === project.slug);
-    res.json({ ...withActivity(project, activity), notes });
+    // "Next project" follows the portfolio order (most recently worked on first).
+    const ordered = projects
+      .map((p) => withActivity(p, activity))
+      .sort((a, b) => String(b.lastWorkedOn || '').localeCompare(String(a.lastWorkedOn || '')));
+    const i = ordered.findIndex((p) => p.slug === project.slug);
+    const n = ordered[(i + 1) % ordered.length];
+    const next = n && n.slug !== project.slug
+      ? { slug: n.slug, title: n.title, tagline: n.tagline || '', image: n.image || null, page: n.page || null }
+      : null;
+    res.json({ ...withActivity(project, activity), notes, next });
   } catch (err) {
     next(err);
   }

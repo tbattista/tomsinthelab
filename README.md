@@ -44,13 +44,24 @@ Add an entry to `content/projects.json`:
   "activity": "full",            // "full" shows commit messages, "dates" shows only dates
   "featured": true,              // homepage picks + menu
   "image": "/images/projects/plants/cover.jpg",
-  "gallery": [{ "src": "/images/projects/plants/1.jpg", "caption": "Dashboard" }],
+  "tour": [                      // "See it in action": one screenshot + sentence per feature
+    { "src": "/images/projects/plants/chat.jpg", "title": "Talk to your plants", "text": "One or two sentences." },
+    { "src": "/images/projects/plants/mobile.jpg", "device": "phone", "title": "...", "text": "..." }
+  ],
   "features": ["..."],
   "stack": ["Node", "Express"],
   "started": "2026",
   "updated": "2026-10-01"        // for projects without a repo; notes also bump this
 }
 ```
+
+Project page flow: hero (pitch, one main button, cover screenshot) -> quick
+facts -> "Why I built it" (`body`) -> feature tour (`tour`; falls back to
+numbered `features` cards when there are no screenshots) -> recent changes and
+notes -> closing call to action (visit, or waitlist) -> next project.
+
+Screenshots: 1280x800 for desktop (shown in a browser frame), phone shots with
+`"device": "phone"` (shown in a phone frame). Don't repeat the cover in `tour`.
 
 Projects without a repo (physical builds, work) get their "last worked on" date
 from `updated` or their most recent note.
