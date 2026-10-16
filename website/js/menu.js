@@ -17,9 +17,6 @@ function loadMenu() {
           <nav id="one-page-menu" class="vertical-menu my-5">
             <ul class="menu-list list-unstyled">
               <li><a href="${basePath}index.html#home" class="nav-link">Home</a></li>
-              <li><a href="${basePath}index.html#about" class="nav-link">About</a></li>
-              <li><a href="${basePath}index.html#education" class="nav-link">Education & Experience</a></li>
-              <li><a href="${basePath}index.html#interests" class="nav-link">Interests</a></li>
               <li>
                 <a href="${basePath}index.html#portfolio" class="nav-link btn-toggle d-flex justify-content-between align-items-center collapsed"
                   data-bs-toggle="collapse" data-bs-target="#projects-collapse" aria-expanded="false">
@@ -33,6 +30,9 @@ function loadMenu() {
                   <ul class="list-unstyled pb-3" id="menu-project-links"></ul>
                 </div>
               </li>
+              <li><a href="${basePath}index.html#about" class="nav-link">About</a></li>
+              <li><a href="${basePath}index.html#education" class="nav-link">Education & Experience</a></li>
+              <li><a href="${basePath}index.html#interests" class="nav-link">Interests</a></li>
               <li><a href="${basePath}lab" class="nav-link">Lab Log</a></li>
               <li><a href="${basePath}index.html#contact" class="nav-link">Contact</a></li>
             </ul>

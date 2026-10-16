@@ -51,6 +51,9 @@
   background: var(--bs-light);
 }
 .lab-cover img {
+  position: relative; /* sit above the letter fallback */
+  z-index: 1;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -198,4 +201,10 @@
   .lab-cover .lab-cover-fallback { font-size: 2.2rem; }
   .lab-card .lab-card-title { font-size: 0.95rem; }
   .lab-card .lab-card-tagline { font-size: 0.8rem; }
+}
+.pick-thumb { width: 140px; }
+@media (max-width: 575px) {
+  .pick-thumb { width: 84px; }
+  #picks-list .project-item { padding-left: 0 !important; padding-right: 0 !important; }
+  #picks-list .project-title { font-size: 1.05rem; }
 }
