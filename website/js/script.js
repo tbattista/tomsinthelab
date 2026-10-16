@@ -201,8 +201,9 @@
     });
 
     AOS.init({
-      duration: 1200,
-      // once: true,
+      duration: 700,
+      once: true,   // don't hide sections again when scrolling back up
+      offset: 60,
     })
 
   });
