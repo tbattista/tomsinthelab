@@ -15,6 +15,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="css/lab.css">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -172,59 +173,28 @@
 
             <div class="col-lg-6 mt-5 pt-5" data-aos="fade-up">
               <div class="section-header text-center">
-                <span class="text-muted text-uppercase">Recent Projects</span>
+                <span class="text-muted text-uppercase">Everything in the lab</span>
                 <h1 class="display-1 txt-fx slide-up">Portfolio</h1>
-                <p>Explore my collection of maker projects and technology solutions. From web applications to mobile apps, each project represents a unique challenge solved through creative engineering and practical innovation.</p>
+                <p>Everything I&rsquo;m building, in one place: apps and sites, physical builds from the shop, and work projects. Sorted by what I touched most recently &mdash; dates update automatically from GitHub.</p>
               </div><!--section-header-->
             </div>
 
-            <div id="filters" class="button-group d-flex gap-4 justify-content-center py-5" data-aos="fade-up">
-              <a href="#" class="text-decoration-none text-uppercase is-checked" data-filter="*">All</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".web-app">Web App</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".community">Community/Brand</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".mobile-app">Mobile App</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".productivity">Productivity</a>
-              <a href="#" class="text-decoration-none text-uppercase" data-filter=".iot">IoT</a>
+            <div id="lab-filters" class="d-flex flex-wrap gap-4 justify-content-center py-5" data-aos="fade-up">
+              <a href="#" class="text-decoration-none text-uppercase is-checked" data-filter="all">All</a>
+              <a href="#" class="text-decoration-none text-uppercase" data-filter="software">Software</a>
+              <a href="#" class="text-decoration-none text-uppercase" data-filter="build">Things I&rsquo;ve Built</a>
+              <a href="#" class="text-decoration-none text-uppercase" data-filter="work">Work</a>
+              <a href="#" class="text-decoration-none text-uppercase" data-filter="private">Private Beta</a>
             </div>
 
           </div>
 
-          <div class="grid p-0 clearfix row row-cols-2 row-cols-lg-3 row-cols-xl-4" data-aos="fade-up">
-            <!-- Remote Water Level Sensor -->
-            <div class="col mb-4 portfolio-item iot">
-              <a href="projects/remote-water-sensor.html" class="project-link"
-                title="Remote Water Level Sensor - ESP32 IoT sensor integrated with Home Assistant"><img src="images/projects/water-sensor-thumb.jpg"
-                  class="img-fluid" alt="Remote Water Level Sensor"></a>
-            </div>
+          <p class="text-center lab-meta mb-4" id="lab-updated"></p>
 
-            <!-- Gym Workout Logger -->
-            <div class="col mb-4 portfolio-item web-app">
-              <a href="projects/gym-workout-logger.html" class="project-link"
-                title="Gym Workout Logger - Flask-based web application for fitness tracking"><img src="images/projects/gym-log-app.jpg"
-                  class="img-fluid" alt="Gym Workout Logger"></a>
-            </div>
-            
-            <!-- Wizards Wiffle Ball Club Website -->
-            <div class="col mb-4 portfolio-item community">
-              <a href="projects/wizards-wiffle-ball-club.html" class="project-link"
-                title="Wizards Wiffle Ball Club Website - Community website for organizing wiffle ball games"><img src="images/projects/wiffle-club-site.jpg"
-                  class="img-fluid" alt="Wizards Wiffle Ball Club Website"></a>
-            </div>
-            
-            <!-- Spicy - Spice Inventory App -->
-            <div class="col mb-4 portfolio-item mobile-app">
-              <a href="projects/spicy-inventory-app.html" class="project-link"
-                title="Spicy - Spice Inventory App - Mobile app for kitchen spice management"><img src="images/projects/spicy-app.jpg"
-                  class="img-fluid" alt="Spicy - Spice Inventory App"></a>
-            </div>
-            
-            <!-- PARA Notion Dashboard -->
-            <div class="col mb-4 portfolio-item productivity">
-              <a href="projects/para-notion-dashboard.html" class="project-link"
-                title="PARA Notion Dashboard - Productivity system using the PARA method"><img src="images/projects/para-dashboard.jpg"
-                  class="img-fluid" alt="PARA Notion Dashboard"></a>
-            </div>
+          <div id="lab-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+            <!-- Rendered from /api/projects (content/projects.json + GitHub activity) -->
           </div>
+          <p id="lab-empty" class="text-center text-muted py-5 d-none">Nothing here yet.</p>
 
         </div>
       </div>
@@ -238,8 +208,62 @@
     crossorigin="anonymous"></script>
   <script src="js/plugins.js"></script>
   <script src="js/menu.js"></script>
-  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
   <script src="js/script.js"></script>
+  <script src="js/lab.js"></script>
+  <script>
+    (function () {
+      var grid = document.getElementById('lab-grid');
+      var empty = document.getElementById('lab-empty');
+      var all = [];
+      var filter = 'all';
+
+      function matches(p) {
+        if (filter === 'all') return true;
+        if (filter === 'private') return !!p.private;
+        return (p.kind || 'software') === filter;
+      }
+
+      function render() {
+        var list = all.filter(matches);
+        empty.classList.toggle('d-none', list.length > 0);
+        grid.innerHTML = list.map(function (p) {
+          return '<div class="col">' +
+            '<a class="lab-card" href="' + Lab.esc(Lab.projectUrl(p)) + '">' +
+              Lab.cover(p) +
+              '<div class="d-flex justify-content-between align-items-start gap-2">' +
+                '<h3 class="lab-card-title">' + Lab.esc(p.title) + '</h3>' +
+                '<span class="mt-2">' + Lab.statusBadge(p) + '</span>' +
+              '</div>' +
+              '<p class="lab-card-tagline">' + Lab.esc(p.tagline || '') + '</p>' +
+              '<p class="lab-meta mb-0">' + Lab.lastWorked(p) + '</p>' +
+            '</a></div>';
+        }).join('');
+      }
+
+      document.getElementById('lab-filters').addEventListener('click', function (e) {
+        var link = e.target.closest('a[data-filter]');
+        if (!link) return;
+        e.preventDefault();
+        this.querySelector('.is-checked').classList.remove('is-checked');
+        link.classList.add('is-checked');
+        filter = link.getAttribute('data-filter');
+        render();
+      });
+
+      Lab.getJSON('/api/projects').then(function (data) {
+        all = data.projects.slice().sort(function (a, b) {
+          return String(b.lastWorkedOn || '').localeCompare(String(a.lastWorkedOn || ''));
+        });
+        if (data.updatedAt) {
+          document.getElementById('lab-updated').textContent = 'Activity synced from GitHub ' + Lab.timeAgo(data.updatedAt);
+        }
+        render();
+      }).catch(function () {
+        empty.textContent = 'Could not load projects right now.';
+        empty.classList.remove('d-none');
+      });
+    })();
+  </script>
 </body>
 
 </html>

@@ -36,3 +36,5 @@ build/
 
 # Railway
 .railway/
+# Local waitlist/activity data
+data/

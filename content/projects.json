@@ -1,0 +1,5 @@
+{ "projects": [
+  { "slug": "plants", "title": "Plants", "tagline": "t", "kind": "software", "repo": "plants", "private": true, "waitlist": true, "featured": true },
+  { "slug": "tomsinthelab", "title": "Tom's in the Lab", "kind": "software", "repo": "tomsinthelab" },
+  { "slug": "remote-water-sensor", "title": "Water", "kind": "build", "page": "/projects/remote-water-sensor.html", "updated": "2025-09-01", "featured": true }
+]}

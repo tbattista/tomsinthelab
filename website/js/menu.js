@@ -1,8 +1,8 @@
 // Global menu component
 function loadMenu() {
-  // Determine if we're in a subdirectory
-  const isInSubdirectory = window.location.pathname.includes('/projects/');
-  const basePath = isInSubdirectory ? '../' : '';
+  // Site is served from the root by server.js, so absolute paths work from
+  // any depth (/projects/foo, /notes/bar, ...).
+  const basePath = '/';
   
   const menuHTML = `
     <header id="header-nav" class="col-lg-2 position-fixed px-5 bg-white h-100">
@@ -29,13 +29,11 @@ function loadMenu() {
                   <ul class="list-unstyled py-3">
                     <li><a href="${basePath}index.html#portfolio">My Picks</a></li>
                     <li><a href="${basePath}portfolio-masonry.html">All Projects</a></li>
-                    <li><a href="${basePath}projects/wizards-wiffle-ball-club.html">Wizards Wiffle Ball Club</a></li>
-                    <li><a href="${basePath}projects/gym-workout-logger.html">Gym Workout Logger</a></li>
-                    <li><a href="${basePath}projects/para-notion-dashboard.html">PARA Notion Dashboard</a></li>
-                    <li><a href="${basePath}projects/spicy-inventory-app.html">Spicy Inventory App</a></li>
                   </ul>
+                  <ul class="list-unstyled pb-3" id="menu-project-links"></ul>
                 </div>
               </li>
+              <li><a href="${basePath}lab" class="nav-link">Lab Log</a></li>
               <li><a href="${basePath}index.html#contact" class="nav-link">Contact</a></li>
             </ul>
           </nav>
@@ -68,7 +66,7 @@ function loadMenu() {
             </li>
           </ul>
           <div class="py-4 border-top">
-            <p>&copy; 2025 Tom's in the Lab</p>
+            <p>&copy; ${new Date().getFullYear()} Tom's in the Lab</p>
           </div>
         </div>
       </div>
@@ -76,6 +74,27 @@ function loadMenu() {
   `;
   
   document.getElementById('menu-placeholder').innerHTML = menuHTML;
+  loadMenuProjects();
+}
+
+// Fill the Projects submenu with featured projects from content/projects.json.
+function loadMenuProjects() {
+  const list = document.getElementById('menu-project-links');
+  if (!list || !window.fetch) return;
+  fetch('/api/projects')
+    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+    .then((data) => {
+      list.innerHTML = data.projects
+        .filter((p) => p.featured)
+        .map((p) => {
+          const a = document.createElement('a');
+          a.href = p.page || '/projects/' + encodeURIComponent(p.slug);
+          a.textContent = p.title;
+          return '<li>' + a.outerHTML + '</li>';
+        })
+        .join('');
+    })
+    .catch(() => {});
 }
 
 // Enhanced navigation function for Projects button and Portfolio link

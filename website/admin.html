@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lab Admin - Toms in the lab</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/css/lab.css">
+</head>
+<body class="bg-body">
+  <main class="container py-5" style="max-width: 960px">
+    <h1 class="display-5">Lab Admin</h1>
+    <p class="text-muted">Waitlist sign-ups and GitHub sync status. Your token is kept in this browser only.</p>
+
+    <form id="login" class="d-flex gap-2 my-4">
+      <input type="password" id="token" class="form-control" placeholder="ADMIN_TOKEN" autocomplete="current-password">
+      <button class="btn btn-dark">Load</button>
+    </form>
+    <p id="error" class="text-danger"></p>
+
+    <div id="panel" class="d-none">
+      <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-4">
+        <h2 class="h4 mb-0">Waitlist <span id="count" class="text-muted"></span></h2>
+        <div class="d-flex gap-2">
+          <select id="project-filter" class="form-select form-select-sm"><option value="">All projects</option></select>
+          <button id="csv" class="btn btn-sm btn-outline-dark text-nowrap">Download CSV</button>
+        </div>
+      </div>
+      <div id="summary" class="my-3"></div>
+      <div class="table-responsive">
+        <table class="table table-sm align-middle">
+          <thead><tr><th>Date</th><th>Project</th><th>Email</th><th>Name</th><th>Note</th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-5">
+        <h2 class="h4 mb-0">GitHub sync</h2>
+        <button id="refresh" class="btn btn-sm btn-outline-dark">Refresh now</button>
+      </div>
+      <p id="sync-status" class="lab-meta mt-2"></p>
+      <p class="mb-2">Repos you&rsquo;ve pushed to that aren&rsquo;t on the site yet (add them to <code>content/projects.json</code>):</p>
+      <ul id="untracked" class="small"></ul>
+    </div>
+  </main>
+
+  <script src="/js/lab.js"></script>
+  <script>
+    (function () {
+      var esc = Lab.esc;
+      var tokenInput = document.getElementById('token');
+      var rows = [];
+      try { tokenInput.value = localStorage.getItem('labAdminToken') || ''; } catch (e) {}
+
+      function api(path) {
+        return fetch(path, { headers: { Authorization: 'Bearer ' + tokenInput.value } }).then(function (res) {
+          return res.json().then(function (body) {
+            if (!res.ok) throw new Error(body.error || res.status);
+            return body;
+          });
+        });
+      }
+
+      function renderRows() {
+        var project = document.getElementById('project-filter').value;
+        var list = rows.filter(function (r) { return !project || r.project === project; })
+          .sort(function (a, b) { return b.createdAt.localeCompare(a.createdAt); });
+        document.getElementById('count').textContent = '(' + list.length + ')';
+        document.getElementById('rows').innerHTML = list.map(function (r) {
+          return '<tr><td class="text-nowrap">' + esc(Lab.formatDate(r.createdAt)) + '</td><td>' + esc(r.project) + '</td>' +
+            '<td><a href="mailto:' + esc(r.email) + '">' + esc(r.email) + '</a></td><td>' + esc(r.name) + '</td><td>' + esc(r.note) + '</td></tr>';
+        }).join('') || '<tr><td colspan="5" class="text-muted">No sign-ups yet.</td></tr>';
+      }
+
+      function loadSync(refresh) {
+        return api('/api/admin/activity' + (refresh ? '?refresh=1' : '')).then(function (a) {
+          document.getElementById('sync-status').textContent = 'Source: ' + a.source + (a.fetchedAt ? ' · last synced ' + Lab.timeAgo(a.fetchedAt) + ' (' + new Date(a.fetchedAt).toLocaleString() + ')' : '') +
+            (a.errors.length ? ' · errors: ' + a.errors.join('; ') : '');
+          document.getElementById('untracked').innerHTML = a.untracked.map(function (r) {
+            return '<li><strong>' + esc(r.repo) + '</strong>' + (r.private ? ' (private)' : '') + ' &middot; pushed ' + esc(Lab.timeAgo(r.pushedAt)) + (r.description ? ' &middot; ' + esc(r.description) : '') + '</li>';
+          }).join('') || '<li class="text-muted">None (or GITHUB_TOKEN not set).</li>';
+        });
+      }
+
+      function load() {
+        document.getElementById('error').textContent = '';
+        api('/api/admin/waitlist').then(function (data) {
+          try { localStorage.setItem('labAdminToken', tokenInput.value); } catch (e) {}
+          rows = data.rows;
+          var counts = {};
+          rows.forEach(function (r) { counts[r.project] = (counts[r.project] || 0) + 1; });
+          document.getElementById('summary').innerHTML = Object.keys(counts).map(function (k) {
+            return '<span class="lab-badge is-private me-2">' + esc(k) + ': ' + counts[k] + '</span>';
+          }).join('');
+          document.getElementById('project-filter').innerHTML = '<option value="">All projects</option>' +
+            Object.keys(counts).map(function (k) { return '<option>' + esc(k) + '</option>'; }).join('');
+          renderRows();
+          document.getElementById('panel').classList.remove('d-none');
+          return loadSync(false);
+        }).catch(function (err) {
+          document.getElementById('error').textContent = err.message;
+        });
+      }
+
+      document.getElementById('login').addEventListener('submit', function (e) { e.preventDefault(); load(); });
+      document.getElementById('project-filter').addEventListener('change', renderRows);
+      document.getElementById('refresh').addEventListener('click', function () {
+        loadSync(true).catch(function (err) { document.getElementById('error').textContent = err.message; });
+      });
+      document.getElementById('csv').addEventListener('click', function () {
+        var project = document.getElementById('project-filter').value;
+        fetch('/api/admin/waitlist?format=csv' + (project ? '&project=' + encodeURIComponent(project) : ''), {
+          headers: { Authorization: 'Bearer ' + tokenInput.value },
+        }).then(function (res) { return res.blob(); }).then(function (blob) {
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'waitlist' + (project ? '-' + project : '') + '.csv';
+          a.click();
+        });
+      });
+      if (tokenInput.value) load();
+    })();
+  </script>
+</body>
+</html>
