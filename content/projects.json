@@ -341,7 +341,9 @@
       "category": "Website",
       "repo": "tomsinthelab",
       "repoPublic": true,
-      "liveUrl": "https://tomsinthelab.com"
+      "liveUrl": "https://tomsinthelab.com",
+      "hidden": true,
+      "_why_hidden": "The site itself; listing it on itself is redundant."
     },
     {
       "slug": "cbs-league-history",

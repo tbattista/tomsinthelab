@@ -1,7 +1,6 @@
 ---
 title: This site now keeps itself up to date
 date: 2026-10-16
-project: tomsinthelab
 summary: Rebuilt the portfolio so project pages pull "last worked on" dates and recent changes straight from GitHub, with room for builds, work projects and notes like this one.
 tags: [meta, web]
 ---
