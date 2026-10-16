@@ -20,8 +20,8 @@ app.use(express.json({ limit: '20kb' }));
 function withActivity(project, activity) {
   const repo = activity.repos[project.slug];
   const out = { ...project };
-  delete out.repo; // don't advertise private repo names
-  if (project.repo && !project.private) out.repoUrl = `https://github.com/${project.repo.includes('/') ? project.repo : 'tbattista/' + project.repo}`;
+  delete out.repo; // only linked when repoPublic is set
+  if (project.repo && project.repoPublic) out.repoUrl = `https://github.com/${project.repo.includes('/') ? project.repo : 'tbattista/' + project.repo}`;
   if (repo) {
     const showMessages = project.activity !== 'dates';
     out.lastWorkedOn = repo.lastWorkedOn;

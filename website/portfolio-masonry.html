@@ -191,7 +191,7 @@
 
           <p class="text-center lab-meta mb-4" id="lab-updated"></p>
 
-          <div id="lab-grid" class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 g-4">
+          <div id="lab-grid" class="row row-cols-2 row-cols-lg-3 row-cols-xl-4 g-3 g-md-4">
             <!-- Rendered from /api/projects (content/projects.json + GitHub activity) -->
           </div>
           <p id="lab-empty" class="text-center text-muted py-5 d-none">Nothing here yet.</p>
@@ -230,12 +230,9 @@
           return '<div class="col">' +
             '<a class="lab-card" href="' + Lab.esc(Lab.projectUrl(p)) + '">' +
               Lab.cover(p) +
-              '<div class="d-flex justify-content-between align-items-start gap-2">' +
-                '<h3 class="lab-card-title">' + Lab.esc(p.title) + '</h3>' +
-                '<span class="mt-2">' + Lab.statusBadge(p) + '</span>' +
-              '</div>' +
+              '<h3 class="lab-card-title">' + Lab.esc(p.title) + '</h3>' +
               '<p class="lab-card-tagline">' + Lab.esc(p.tagline || '') + '</p>' +
-              '<p class="lab-meta mb-0">' + Lab.lastWorked(p) + '</p>' +
+              '<p class="lab-meta mb-0 d-flex flex-wrap align-items-center gap-2">' + Lab.statusBadge(p) + '<span>' + Lab.lastWorked(p) + '</span></p>' +
             '</a></div>';
         }).join('');
       }

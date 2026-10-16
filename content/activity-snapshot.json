@@ -1,1 +1,172 @@
-{"fetchedAt":"2026-10-16T12:00:00Z","repos":{"plants":{"lastWorkedOn":"2026-10-12T23:50:49Z","lastCommit":{"sha":"abc1234","date":"2026-10-12T23:50:49Z","message":"Add watering reminders"},"commits":[{"sha":"abc1234","date":"2026-10-12T23:50:49Z","message":"Add watering reminders"}]}}}
+{
+  "fetchedAt": "2026-10-16T13:40:00Z",
+  "source": "snapshot",
+  "repos": {
+    "did-they-read": {
+      "lastWorkedOn": "2026-10-15T14:38:21Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-10-15T14:38:21Z",
+        "message": "Added a demand-check question and visitors chart to the morning brief; redesigned reading-log cards and the add-books flow"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-10-15T14:38:21Z",
+          "message": "Added a demand-check question and visitors chart to the morning brief; redesigned reading-log cards and the add-books flow"
+        }
+      ]
+    },
+    "plants": {
+      "lastWorkedOn": "2026-10-12T23:50:45Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-10-12T23:50:45Z",
+        "message": "Redrew 33 plant-tag illustrations for a 30 mm 3D-printed NFC button and added a tag-picture picker"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-10-12T23:50:45Z",
+          "message": "Redrew 33 plant-tag illustrations for a 30 mm 3D-printed NFC button and added a tag-picture picker"
+        }
+      ]
+    },
+    "lemonade-stand": {
+      "lastWorkedOn": "2026-07-06T13:30:08Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-07-06T13:30:08Z",
+        "message": "Reworked tips, added autosave with toast notifications, and showed cost per item and profit on recipes"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-07-06T13:30:08Z",
+          "message": "Reworked tips, added autosave with toast notifications, and showed cost per item and profit on recipes"
+        }
+      ]
+    },
+    "fitness-field-notes": {
+      "lastWorkedOn": "2026-08-08T21:38:36Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-08-08T21:38:36Z",
+        "message": "Synced Firestore security rules on startup; added a site-wide beta banner and sitemap cleanup"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-08-08T21:38:36Z",
+          "message": "Synced Firestore security rules on startup; added a site-wide beta banner and sitemap cleanup"
+        }
+      ]
+    },
+    "baseball-board": {
+      "lastWorkedOn": "2026-07-24T03:31:49Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-07-24T03:31:49Z",
+        "message": "Added focus mode, step captions, more scenarios and phone usability fixes"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-07-24T03:31:49Z",
+          "message": "Added focus mode, step captions, more scenarios and phone usability fixes"
+        }
+      ]
+    },
+    "whos-more-tan": {
+      "lastWorkedOn": "2026-07-27T00:13:05Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-07-27T00:13:05Z",
+        "message": "Built the full camera comparison app"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-07-27T00:13:05Z",
+          "message": "Built the full camera comparison app"
+        }
+      ]
+    },
+    "contact-capture": {
+      "lastWorkedOn": "2026-08-10T15:11:25Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-08-10T15:11:25Z",
+        "message": "Shipped the MVP: sign-in, AI parsing, contact save and history"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-08-10T15:11:25Z",
+          "message": "Shipped the MVP: sign-in, AI parsing, contact save and history"
+        }
+      ]
+    },
+    "beer-series-tracker": {
+      "lastWorkedOn": "2026-04-19T00:52:48Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-04-19T00:52:48Z",
+        "message": "Added a Paid/Unpaid toggle and compacted the history view for mobile"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-04-19T00:52:48Z",
+          "message": "Added a Paid/Unpaid toggle and compacted the history view for mobile"
+        }
+      ]
+    },
+    "wizards-wiffle-ball-club": {
+      "lastWorkedOn": "2026-06-06T17:13:21Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-06-06T17:13:21Z",
+        "message": "Updated the June Saturday Summer Slam details and RSVP link; added printable game-day sheets"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-06-06T17:13:21Z",
+          "message": "Updated the June Saturday Summer Slam details and RSVP link; added printable game-day sheets"
+        }
+      ]
+    },
+    "gym-workout-logger": {
+      "lastWorkedOn": "2025-08-06T02:47:00Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2025-08-06T02:47:00Z",
+        "message": "Moved hosting from PythonAnywhere to Railway"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2025-08-06T02:47:00Z",
+          "message": "Moved hosting from PythonAnywhere to Railway"
+        }
+      ]
+    },
+    "tomsinthelab": {
+      "lastWorkedOn": "2026-10-16T13:40:00Z",
+      "lastCommit": {
+        "sha": "",
+        "date": "2026-10-16T13:40:00Z",
+        "message": "Rebuilt the site to update itself from GitHub"
+      },
+      "commits": [
+        {
+          "sha": "",
+          "date": "2026-10-16T13:40:00Z",
+          "message": "Rebuilt the site to update itself from GitHub"
+        }
+      ]
+    }
+  },
+  "errors": []
+}

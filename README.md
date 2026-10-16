@@ -37,7 +37,8 @@ Add an entry to `content/projects.json`:
   "kind": "software",            // software | build | work
   "category": "Web app",
   "repo": "plants",              // GitHub repo name (or owner/name). Omit for physical builds.
-  "private": true,               // hides the code link and marks it "Private beta"
+  "private": true,               // the app isn't open to the public: marked "Private beta"
+  "repoPublic": false,           // true shows a "View code" link to the GitHub repo
   "waitlist": true,              // shows the "Would you use this?" email sign-up
   "liveUrl": "https://...",      // shown as "Visit" button when not private
   "activity": "full",            // "full" shows commit messages, "dates" shows only dates

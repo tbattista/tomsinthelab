@@ -194,3 +194,8 @@
 #lab-filters a:hover,
 #lab-filters a.is-checked { color: var(--bs-primary); }
 .lab-cover.sm .lab-cover-fallback { font-size: 1.6rem; }
+@media (max-width: 575px) {
+  .lab-cover .lab-cover-fallback { font-size: 2.2rem; }
+  .lab-card .lab-card-title { font-size: 0.95rem; }
+  .lab-card .lab-card-tagline { font-size: 0.8rem; }
+}

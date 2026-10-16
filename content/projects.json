@@ -1,5 +1,326 @@
-{ "projects": [
-  { "slug": "plants", "title": "Plants", "tagline": "t", "kind": "software", "repo": "plants", "private": true, "waitlist": true, "featured": true },
-  { "slug": "tomsinthelab", "title": "Tom's in the Lab", "kind": "software", "repo": "tomsinthelab" },
-  { "slug": "remote-water-sensor", "title": "Water", "kind": "build", "page": "/projects/remote-water-sensor.html", "updated": "2025-09-01", "featured": true }
-]}
+{
+  "projects": [
+    {
+      "slug": "did-they-read",
+      "title": "Did They Really Read?",
+      "tagline": "Printable fold-and-staple reading journals for any kids' book.",
+      "description": "Pick a book and how many chapters, and it prints a reading journal your kid can fold and staple. Optional AI writes a question for each chapter, with example answers for the grown-up.",
+      "body": "**Did They Really Read?** makes a reading journal for any chapter book: print it double-sided on regular paper, fold it, staple it, and your reader has a journal with a question for every chapter.\n\nIt has grown into a library of books with covers, ratings and NYT best-seller history, matched against Open Library and Google Books.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "did-they-read",
+      "liveUrl": "https://didtheyreallyread.com",
+      "featured": true,
+      "features": [
+        "Booklet PDF laid out for 8.5x11 paper: print double-sided, fold and staple",
+        "Optional AI-written chapter questions with example answers",
+        "Book search and cover lookup via Open Library and Google Books",
+        "Public book library with ratings and best-seller history",
+        "Admin dashboard with usage analytics and a morning email brief"
+      ],
+      "stack": [
+        "Node.js",
+        "Express",
+        "Puppeteer",
+        "pdf-lib",
+        "OpenAI API",
+        "Railway"
+      ],
+      "image": "/images/projects/did-they-read/cover.jpg"
+    },
+    {
+      "slug": "plants",
+      "title": "Plants",
+      "tagline": "My plant journal: photo-aware AI chat, care guides and NFC pot tags.",
+      "description": "A private plant journal where the main screen is a chat. Send a photo or say \"watered the monstera\" and it updates the real records. Friends can tap the NFC tag on a pot to see how to care for that plant.",
+      "body": "The main screen is an AI chat. It recognizes plants from photos and turns what you say into real actions: logging a watering, moving a plant to another room, starting a cutting. Every action can be undone.\n\nEach plant gets a photo timeline, care history and an auto-written care guide, and a **Today** screen shows what needs water. The hardware side: the app generates 3D-printable NFC tag holders, so anyone can tap a pot with their phone and open that plant's public care page.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "plants",
+      "private": true,
+      "waitlist": true,
+      "featured": true,
+      "features": [
+        "AI chat that identifies plants from photos and logs care actions, with undo",
+        "Auto-written care guides and a Today dashboard of watering reminders",
+        "Rooms, soil recipes from supplies on hand, cuttings and gifted plants",
+        "Public NFC care page for every plant",
+        "Generates 3D-printable NFC tag holders (3MF/STL)"
+      ],
+      "stack": [
+        "Node.js",
+        "Express",
+        "PostgreSQL",
+        "S3",
+        "AI vision",
+        "3D printing",
+        "Railway"
+      ]
+    },
+    {
+      "slug": "lemonade-stand",
+      "title": "Lemon Stand Tracker",
+      "tagline": "A tap-only order and profit tracker for kid-run lemonade stands.",
+      "description": "A simple tracker that lets kids run their own lemonade stand: big tap buttons for orders, recipe steps for making drinks, help with making change, and a report at the end that shows whether they made money.",
+      "body": "Most POS apps are far too complicated for a kid-run stand. This one keeps it to big tap buttons, recipe steps for making drinks, and help with making change. It also shows the business side: what the cups and lemons cost, what sold, and whether the stand made a profit.\n\nSupplies are subtracted automatically with every cup sold. **Kid Mode** hides the settings and costs, so the kids can run the stand themselves.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "lemonade-pos",
+      "private": true,
+      "waitlist": true,
+      "featured": true,
+      "features": [
+        "Tap-only order screen with a cash change calculator and Venmo/Cash App QR codes",
+        "Make queue with recipe steps",
+        "Supplies auto-deducted per order, with cost per cup and profit",
+        "Daily report: revenue, tips, margin, best sellers, CSV export",
+        "Kid Mode hides settings, costs and delete buttons"
+      ],
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "Prisma",
+        "PostgreSQL",
+        "Railway"
+      ]
+    },
+    {
+      "slug": "fitness-field-notes",
+      "title": "Fitness Field Notes",
+      "tagline": "A no-nonsense digital gym notebook for lifters.",
+      "description": "A minimalist workout log: build templates and multi-week programs, track sessions live, and review your history and PRs. No social feed, no gamification, and no account required.",
+      "body": "This is the latest version of a gym logger I keep rebuilding (see the [Gym Workout Logger](/projects/gym-workout-logger.html), which started as a Word template filler). I wanted the simplicity of a paper notebook with the advantages of an app.\n\nYou can paste a workout as plain text, a PDF, a spreadsheet or even a photo, and AI turns it into a structured workout.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "FitnessFieldNotes",
+      "repoPublic": true,
+      "liveUrl": "https://fitnessfieldnotes.com",
+      "featured": true,
+      "features": [
+        "Workout builder and multi-week program manager",
+        "Live session tracking with history and personal records",
+        "AI import from plain text, PDF, CSV or a photo",
+        "Exercise database with GIF demos",
+        "Works without an account (browser storage)"
+      ],
+      "stack": [
+        "Python",
+        "FastAPI",
+        "Bootstrap 5",
+        "Firebase",
+        "Google Gemini",
+        "Railway"
+      ],
+      "image": "/images/projects/fitness-field-notes/cover.jpg"
+    },
+    {
+      "slug": "baseball-board",
+      "title": "Baseball Board",
+      "tagline": "An animated tactics board for coaching: drag players, then play the sequence.",
+      "description": "A whiteboard for baseball coaches: drag fielders, runners and the ball around the diamond, save each position as a step, then play it back as an animation. It covers cutoffs, rundowns, double plays and base coverage.",
+      "body": "Set up a play step by step (cutoffs, rundowns, double plays, base coverage), then **play it back** so everyone can see who moves where.\n\nIt includes a library of scenarios organized by position, and it's built to work on a phone at the field.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "baseball-board",
+      "private": true,
+      "waitlist": true,
+      "features": [
+        "Draggable defenders, runners and ball on a top-down field",
+        "Step-by-step timeline with animated playback and speed control",
+        "Scenario library organized by position",
+        "Focus mode and phone-friendly controls",
+        "Plays saved in the browser"
+      ],
+      "stack": [
+        "React",
+        "Vite",
+        "SVG",
+        "Railway"
+      ]
+    },
+    {
+      "slug": "whos-more-tan",
+      "title": "Who's More Tan?",
+      "tagline": "Put your arms together and let your phone camera decide who's more tan.",
+      "description": "A silly camera app for settling summer arguments. Two people put their arms side by side, and the app samples both, corrects for the lighting, and picks a winner over best of three. Photos never leave your phone.",
+      "body": "A fun color-science project. The app compares skin tones in the CIELAB color space, filters out glare and shadows, and can use a white card as a lighting reference.\n\nIt's purely for entertainment, and all processing happens in your browser.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "whostanner",
+      "private": true,
+      "waitlist": true,
+      "features": [
+        "Live camera capture with upload fallback",
+        "Draggable sampling circles and an optional white-balance card",
+        "CIELAB color comparison that filters out glare and shadows",
+        "Best-of-three rounds with a shareable result card",
+        "Installable PWA; photos never leave the device"
+      ],
+      "stack": [
+        "Python",
+        "Flask",
+        "JavaScript",
+        "Canvas API",
+        "PWA"
+      ]
+    },
+    {
+      "slug": "contact-capture",
+      "title": "ContactCapture",
+      "tagline": "Paste any messy text and AI turns it into a contact in Outlook or Google.",
+      "description": "Paste an email signature, a LinkedIn blurb or business-card text, and AI extracts a clean contact. Review it, then save it to Outlook and/or Google Contacts with one click.",
+      "body": "Paste whatever you have (an email signature, a LinkedIn blurb, business-card text), check the fields it extracted, and save. There's no retyping.",
+      "kind": "software",
+      "category": "Tool",
+      "repo": "copy-paste-contacts",
+      "repoPublic": true,
+      "private": true,
+      "waitlist": true,
+      "waitlistPitch": "ContactCapture is an MVP right now. If you&rsquo;d use it with your Outlook or Google account, leave your email and I&rsquo;ll let you know when it opens up.",
+      "features": [
+        "AI extracts structured contact fields from any text",
+        "One-click save to Outlook (Microsoft 365) and/or Google Contacts",
+        "Sign in with Microsoft or Google",
+        "History of captured contacts"
+      ],
+      "stack": [
+        "Next.js",
+        "TypeScript",
+        "Auth.js",
+        "Prisma",
+        "PostgreSQL",
+        "Railway"
+      ]
+    },
+    {
+      "slug": "beer-series-tracker",
+      "title": "Red Sox vs Yankees Beer Series",
+      "tagline": "Settling a six-pack-per-series bet with the MLB Stats API.",
+      "description": "A six-pack is on the line every Red Sox-Yankees series. This site pulls the games from the MLB Stats API, groups them into series, decides each winner, and tracks who still owes beer.",
+      "kind": "software",
+      "category": "Sports",
+      "repo": "redsox_yankees_beers",
+      "repoPublic": true,
+      "features": [
+        "Live game data from the MLB Stats API",
+        "Series winner as soon as it's clinched; splits owe nothing",
+        "Dashboard, schedule and calendar views",
+        "Season history with a Paid/Unpaid toggle"
+      ],
+      "stack": [
+        "Python",
+        "FastAPI",
+        "SQLite",
+        "MLB Stats API",
+        "Railway"
+      ]
+    },
+    {
+      "slug": "wizards-wiffle-ball-club",
+      "title": "Wizards Wiffle Ball Club",
+      "tagline": "Website for our family wiffle ball club: schedule, rules, RSVPs and game-day sheets.",
+      "kind": "software",
+      "category": "Community",
+      "repo": "wizards-wiffle-ball-club",
+      "liveUrl": "https://wizardswiffleball.com/",
+      "page": "/projects/wizards-wiffle-ball-club.html",
+      "image": "/images/projects/wizards-wiffle-ball-club/cover.jpg",
+      "featured": true
+    },
+    {
+      "slug": "remote-water-sensor",
+      "title": "Remote Water Level Sensor",
+      "tagline": "ESP32 sensor with dual accelerometers and an OLED, reporting to Home Assistant.",
+      "kind": "build",
+      "category": "IoT / Smart home",
+      "page": "/projects/remote-water-sensor.html",
+      "image": "/images/projects/water-sensor-thumb.jpg",
+      "updated": "2026-06-14",
+      "featured": true
+    },
+    {
+      "slug": "gym-workout-logger",
+      "title": "Gym Workout Logger",
+      "tagline": "The first version of my gym log: fill in workout templates and print them.",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "simplegym-2025",
+      "repoPublic": true,
+      "page": "/projects/gym-workout-logger.html",
+      "image": "/images/projects/gym-log-app.jpg",
+      "status": "archived"
+    },
+    {
+      "slug": "spicy-inventory-app",
+      "title": "Spicy Inventory App",
+      "tagline": "A mobile app for keeping track of what's in the spice cabinet.",
+      "kind": "software",
+      "category": "Mobile app",
+      "page": "/projects/spicy-inventory-app.html",
+      "image": "/images/projects/spicy-app.jpg",
+      "updated": "2025-08-01"
+    },
+    {
+      "slug": "para-notion-dashboard",
+      "title": "PARA Notion Dashboard",
+      "tagline": "A Notion productivity system built around the PARA method.",
+      "kind": "work",
+      "category": "Productivity",
+      "page": "/projects/para-notion-dashboard.html",
+      "image": "/images/projects/para-dashboard.jpg",
+      "updated": "2025-08-01"
+    },
+    {
+      "slug": "tomsinthelab",
+      "title": "Tom's in the Lab",
+      "tagline": "This site: a portfolio that updates itself from GitHub.",
+      "description": "The site you're on. Projects, activity and notes are all generated from data, and \"last worked on\" dates come straight from GitHub.",
+      "kind": "software",
+      "category": "Website",
+      "repo": "tomsinthelab",
+      "repoPublic": true,
+      "liveUrl": "https://tomsinthelab.com"
+    },
+    {
+      "slug": "cbs-league-history",
+      "title": "CBS League History",
+      "tagline": "Back up a CBS Sports fantasy league's full history and browse it as a dashboard.",
+      "kind": "software",
+      "category": "Sports",
+      "repo": "CBS-League-History",
+      "hidden": true,
+      "_why_hidden": "Repo contains raw league pages with member handles; review before showing."
+    },
+    {
+      "slug": "lindas-library",
+      "title": "Linda's Library",
+      "kind": "software",
+      "category": "Web app",
+      "repo": "lindaslibrary",
+      "private": true,
+      "hidden": true,
+      "_why_hidden": "Needs a description, couldn't read the repo during setup."
+    },
+    {
+      "slug": "dfs-picks",
+      "title": "DFS / Props Picks Generator",
+      "tagline": "AI-generated weekly NFL DFS and player-prop picks.",
+      "kind": "software",
+      "category": "AI",
+      "repo": "Fantasy-Weekly-AI-Notes",
+      "hidden": true,
+      "_why_hidden": "Archived experiment; unhide if you want it listed."
+    },
+    {
+      "slug": "rc-lap-timer",
+      "title": "RC Lap Timer",
+      "tagline": "Time RC car laps with your phone camera and color detection.",
+      "kind": "software",
+      "category": "Tool",
+      "repo": "Rc-lap-timer-",
+      "hidden": true,
+      "_why_hidden": "Unfinished, and the repo still contains the malicious 'chore: deps' postinstall."
+    }
+  ]
+}
