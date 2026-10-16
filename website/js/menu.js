@@ -30,7 +30,7 @@ function loadMenu() {
                   <ul class="list-unstyled pb-3" id="menu-project-links"></ul>
                 </div>
               </li>
-              <li><a href="${basePath}index.html#education" class="nav-link">Education & Experience</a></li>
+              <li><a href="${basePath}index.html#education" class="nav-link">Background</a></li>
               <li><a href="${basePath}index.html#interests" class="nav-link">Interests</a></li>
               <li><a href="${basePath}lab" class="nav-link">Lab Log</a></li>
               <li><a href="${basePath}index.html#contact" class="nav-link">Contact</a></li>
