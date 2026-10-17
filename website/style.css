@@ -364,18 +364,18 @@ a {
   top: 8px;
 }
 
-header {
+#header-nav {
   left: 0;
   top: 0;
 }
 @media (max-width: 991px) {
-  /* mobile menu */
-  header {
+  /* mobile menu (scoped to the site menu, not every <header>) */
+  #header-nav {
     transform: translate3d(-100%, 0, 0);
     transition: transform 0.3s ease-out;
     z-index: 8;
   }
-  .nav-active header {
+  .nav-active #header-nav {
     transform: translate3d(0, 0, 0);
   }
   .menu-btn {

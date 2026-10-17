@@ -309,7 +309,6 @@
       "repo": "simplegym-2025",
       "repoPublic": true,
       "page": "/projects/gym-workout-logger.html",
-      "image": "/images/projects/gym-log-app.jpg",
       "status": "archived"
     },
     {
@@ -319,7 +318,6 @@
       "kind": "software",
       "category": "Mobile app",
       "page": "/projects/spicy-inventory-app.html",
-      "image": "/images/projects/spicy-app.jpg",
       "updated": "2025-08-01"
     },
     {
@@ -329,7 +327,6 @@
       "kind": "work",
       "category": "Productivity",
       "page": "/projects/para-notion-dashboard.html",
-      "image": "/images/projects/para-dashboard.jpg",
       "updated": "2025-08-01"
     },
     {

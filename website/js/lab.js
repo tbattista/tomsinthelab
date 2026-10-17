@@ -71,7 +71,7 @@ window.Lab = (function () {
   function lastWorked(p) {
     if (!p.lastWorkedOn) return '';
     var dot = isRecent(p.lastWorkedOn, 14) ? '<span class="pulse-dot" title="Worked on recently"></span>' : '';
-    return dot + 'Updated ' + esc(timeAgo(p.lastWorkedOn));
+    return dot + '<span class="d-none d-sm-inline">Updated </span>' + esc(timeAgo(p.lastWorkedOn));
   }
 
   // Minimal markdown for short project write-ups when marked isn't loaded.

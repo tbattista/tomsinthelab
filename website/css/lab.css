@@ -413,3 +413,25 @@
   .cv-item { grid-template-columns: 1fr; gap: 0.25rem; }
   .honor-figure { font-size: 1.6rem; }
 }
+
+/* Mobile menu button: white circular backing so it stays legible when it
+   floats over cards and screenshots. The spread shadow grows the circle
+   without moving the hamburger lines. */
+@media (max-width: 991px) {
+  .menu-btn {
+    top: 12px;
+    right: 12px;
+    margin: 12px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 0 0 10px #fff, 0 2px 12px 10px rgba(0, 0, 0, 0.12);
+    z-index: 20;
+  }
+}
+@media (max-width: 991px) {
+  .menu-btn > span { top: 12px; } /* center the three lines inside the circle */
+}
+@media (max-width: 575px) {
+  .lab-card .lab-meta { font-size: 0.7rem; gap: 0.4rem !important; }
+  .lab-card .lab-badge { font-size: 0.62rem; padding: 0.15rem 0.45rem; }
+}
