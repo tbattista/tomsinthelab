@@ -151,6 +151,34 @@
   color: var(--bs-gray);
   margin-top: 0.5rem;
 }
+.lab-phone-row {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.25rem 1rem;
+  scroll-snap-type: x mandatory;
+}
+.lab-phone {
+  flex: 0 0 220px;
+  margin: 0;
+  scroll-snap-align: start;
+}
+.lab-phone img {
+  width: 100%;
+  aspect-ratio: 390 / 844;
+  object-fit: cover;
+  object-position: top;
+  border: 6px solid #1a1a1a;
+  border-radius: 1.75rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  background: #1a1a1a;
+}
+.lab-phone figcaption {
+  font-size: 0.8rem;
+  color: var(--bs-gray);
+  margin-top: 0.5rem;
+  text-align: center;
+}
 .waitlist-box {
   background: var(--bs-secondary);
   border-radius: 0.5rem;

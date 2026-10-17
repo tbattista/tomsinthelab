@@ -45,6 +45,7 @@ Add an entry to `content/projects.json`:
   "featured": true,              // homepage picks + menu
   "image": "/images/projects/plants/cover.jpg",
   "gallery": [{ "src": "/images/projects/plants/1.jpg", "caption": "Dashboard" }],
+  "mobileGallery": [{ "src": "/images/projects/plants/m1.jpg", "caption": "Today" }], // 390x844 phone shots
   "features": ["..."],
   "stack": ["Node", "Express"],
   "started": "2026",

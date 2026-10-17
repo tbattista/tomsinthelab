@@ -28,6 +28,17 @@
     }).join('') + '</div>';
   }
 
+  // Phone screenshots: a horizontal row of portrait shots (scrolls sideways on small screens).
+  function mobileGalleryHtml(p) {
+    if (!p.mobileGallery || !p.mobileGallery.length) return '';
+    return '<div class="mb-5"><h5 class="mb-3">On a phone</h5><div class="lab-phone-row">' + p.mobileGallery.map(function (g) {
+      return '<figure class="lab-phone">' +
+        '<a href="' + esc(g.src) + '" class="image-link"><img src="' + esc(g.src) + '" alt="' + esc(g.caption || p.title) + '" loading="lazy"></a>' +
+        (g.caption ? '<figcaption>' + esc(g.caption) + '</figcaption>' : '') +
+        '</figure>';
+    }).join('') + '</div></div>';
+  }
+
   function activityHtml(p) {
     var html = '<h5 class="mt-4">Recent work</h5>';
     if (p.lastWorkedOn) html += '<p class="lab-meta mb-2">Last worked on ' + esc(Lab.formatDate(p.lastWorkedOn)) + '</p>';
@@ -98,6 +109,7 @@
         '</div></div>' +
       '</div>' +
       galleryHtml(p) +
+      mobileGalleryHtml(p) +
       waitlistHtml(p) +
       notesHtml(p);
 
