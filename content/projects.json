@@ -88,6 +88,29 @@
         "AI vision",
         "3D printing",
         "Railway"
+      ],
+      "image": "/images/projects/plants/cover.jpg",
+      "gallery": [
+        {
+          "src": "/images/projects/plants/m1.jpg",
+          "caption": "Today: what needs water, with one-tap \"Watered\"",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/plants/m2.jpg",
+          "caption": "Chat: recognizes a plant from a photo, catches a duplicate, and adds it with undo",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/plants/m3.jpg",
+          "caption": "A plant's page with its photo and care timeline",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/plants/m4.jpg",
+          "caption": "NFC tag picker: choose the drawing for the 3D-printed pot tag",
+          "device": "phone"
+        }
       ]
     },
     {
@@ -116,6 +139,24 @@
         "Prisma",
         "PostgreSQL",
         "Railway"
+      ],
+      "image": "/images/projects/lemonade-stand/cover.jpg",
+      "gallery": [
+        {
+          "src": "/images/projects/lemonade-stand/m1.jpg",
+          "caption": "Take Order: big tap buttons, running total, cash or Venmo/Cash App",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/lemonade-stand/m2.jpg",
+          "caption": "Make queue: recipe steps for each order",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/lemonade-stand/m3.jpg",
+          "caption": "Daily report: revenue, tips, supply cost and profit margin",
+          "device": "phone"
+        }
       ]
     },
     {
@@ -198,6 +239,24 @@
         "Vite",
         "SVG",
         "Railway"
+      ],
+      "image": "/images/projects/baseball-board/cover.jpg",
+      "gallery": [
+        {
+          "src": "/images/projects/baseball-board/m1.jpg",
+          "caption": "A 6-4-3 double play, mid-play",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/baseball-board/m2.jpg",
+          "caption": "Scenario library: 37 situations grouped by position",
+          "device": "phone"
+        },
+        {
+          "src": "/images/projects/baseball-board/m3.jpg",
+          "caption": "First & third double steal, step by step",
+          "device": "phone"
+        }
       ]
     },
     {
