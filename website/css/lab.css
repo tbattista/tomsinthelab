@@ -435,3 +435,14 @@
   .lab-card .lab-meta { font-size: 0.7rem; gap: 0.4rem !important; }
   .lab-card .lab-badge { font-size: 0.62rem; padding: 0.15rem 0.45rem; }
 }
+
+/* Phone-only tours: phones side by side with numbered captions */
+.phone-row .phone-frame { max-width: 230px; }
+.phone-caption { max-width: 230px; margin: 1.25rem auto 0; }
+.phone-caption .service-number { display: block; margin-bottom: 0.25rem; }
+.phone-caption p { font-size: 0.95rem; line-height: 1.45; }
+@media (max-width: 575px) {
+  .phone-row .phone-frame { padding: 6px; border-radius: 24px; }
+  .phone-row .phone-frame img { border-radius: 18px; }
+  .phone-caption p { font-size: 0.85rem; }
+}

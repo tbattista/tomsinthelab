@@ -88,6 +88,8 @@
     // The hero already shows the cover, so don't repeat it as a step.
     var steps = tourSteps(p).filter(function (s) { return s.src !== p.image; });
     if (!steps.length) return featuresHtml(p);
+    // All phone shots: show them side by side instead of one tall row each.
+    if (steps.every(function (s) { return s.device === 'phone'; })) return phoneRowHtml(p, steps);
     return '<section class="project-section">' +
       '<span class="text-muted text-uppercase">How it works</span>' +
       '<h2 class="display-6 mt-1 mb-5">See it in action</h2>' +
@@ -106,6 +108,21 @@
         '</div>';
       }).join('') +
       '</section>';
+  }
+
+  function phoneRowHtml(p, steps) {
+    return '<section class="project-section">' +
+      '<span class="text-muted text-uppercase">How it works</span>' +
+      '<h2 class="display-6 mt-1 mb-5">See it in action</h2>' +
+      '<div class="row row-cols-2 row-cols-lg-' + Math.min(steps.length, 4) + ' g-4 g-lg-5 phone-row">' +
+      steps.map(function (s, i) {
+        return '<div class="col">' + frame(s.src, s.title || p.title, 'phone') +
+          '<div class="phone-caption"><span class="service-number">' + pad(i + 1) + '</span>' +
+          (s.title ? '<p class="fw-bold mb-1">' + esc(s.title) + '</p>' : '') +
+          (s.text ? '<p class="text-muted small mb-0">' + esc(s.text) + '</p>' : '') +
+          '</div></div>';
+      }).join('') +
+      '</div></section>';
   }
 
   // No screenshots yet: show the feature list as numbered cards instead.
