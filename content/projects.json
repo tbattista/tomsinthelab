@@ -143,6 +143,18 @@
       "image": "/images/projects/lemonade-stand/cover.jpg",
       "gallery": [
         {
+          "src": "/images/projects/lemonade-stand/1.jpg",
+          "caption": "Take Order on a laptop: cart, running total and payment options"
+        },
+        {
+          "src": "/images/projects/lemonade-stand/2.jpg",
+          "caption": "Make queue with recipe steps for each order"
+        },
+        {
+          "src": "/images/projects/lemonade-stand/3.jpg",
+          "caption": "Daily report: revenue, tips, supply cost, profit margin and best sellers"
+        },
+        {
           "src": "/images/projects/lemonade-stand/m1.jpg",
           "caption": "Take Order: big tap buttons, running total, cash or Venmo/Cash App",
           "device": "phone"
@@ -242,6 +254,14 @@
       ],
       "image": "/images/projects/baseball-board/cover.jpg",
       "gallery": [
+        {
+          "src": "/images/projects/baseball-board/1.jpg",
+          "caption": "Scenario library: 37 situations grouped by position"
+        },
+        {
+          "src": "/images/projects/baseball-board/2.jpg",
+          "caption": "First & third double steal, step 3 of 3"
+        },
         {
           "src": "/images/projects/baseball-board/m1.jpg",
           "caption": "A 6-4-3 double play, mid-play",
