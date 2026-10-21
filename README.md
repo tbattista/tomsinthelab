@@ -89,10 +89,18 @@ Environment variables:
 | `ADMIN_TOKEN` | `/admin` page and admin API | Any long random string. |
 | `DATA_DIR` | Keeping waitlist sign-ups across deploys | Mount path of a Railway Volume, e.g. `/data`. |
 | `ACTIVITY_CACHE_MINUTES` | Optional | How often to re-check GitHub (default 60). |
+| `SITE_URL` | Optional | Public URL used in `/sitemap.xml` and `/robots.txt` (default `https://tomsinthelab.com`). |
 
 Attach a **Volume** to the service (Railway → service → Settings → Volumes),
 mount it at `/data`, and set `DATA_DIR=/data`. Without it, sign-ups are lost on
 every deploy.
+
+## Google Search Console
+
+`/sitemap.xml` is generated on each request from `projects.json` and the notes,
+so new projects and notes show up automatically, with `lastmod` taken from the
+last-worked-on date. `/robots.txt` points crawlers at it and keeps `/admin` and
+`/api/` out. In Search Console, open **Sitemaps** and submit `sitemap.xml`.
 
 ## Local dev
 

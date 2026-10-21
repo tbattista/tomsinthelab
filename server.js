@@ -182,6 +182,51 @@ app.get('/api/admin/activity', requireAdmin, async (req, res, next) => {
 app.use('/api', (req, res) => res.status(404).json({ error: 'Not found' }));
 
 // ---------------------------------------------------------------------------
+// Sitemap + robots.txt (for Google Search Console)
+// ---------------------------------------------------------------------------
+
+const SITE_URL = (process.env.SITE_URL || 'https://tomsinthelab.com').replace(/\/$/, '');
+
+function xmlEscape(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+}
+
+app.get('/sitemap.xml', async (req, res, next) => {
+  try {
+    const projects = loadProjects();
+    const activity = await getActivity(projects);
+    const notes = loadNotes();
+    const full = projects.map((p) => withActivity(p, activity));
+    const latest = [...full.map((p) => p.lastWorkedOn), ...notes.map((n) => n.date)]
+      .filter(Boolean).sort().pop() || null;
+
+    const urls = [
+      { loc: '/', lastmod: latest, priority: '1.0' },
+      { loc: '/portfolio-masonry.html', lastmod: latest, priority: '0.9' },
+      { loc: '/lab', lastmod: latest, priority: '0.8' },
+      { loc: '/contact.html', priority: '0.5' },
+      ...full.map((p) => ({ loc: p.page || `/projects/${encodeURIComponent(p.slug)}`, lastmod: p.lastWorkedOn, priority: '0.7' })),
+      ...notes.map((n) => ({ loc: `/notes/${encodeURIComponent(n.slug)}`, lastmod: n.date, priority: '0.6' })),
+    ];
+
+    const body = urls.map((u) => {
+      const lastmod = u.lastmod ? `\n    <lastmod>${xmlEscape(String(u.lastmod).slice(0, 10))}</lastmod>` : '';
+      return `  <url>\n    <loc>${xmlEscape(SITE_URL + u.loc)}</loc>${lastmod}\n    <priority>${u.priority}</priority>\n  </url>`;
+    }).join('\n');
+
+    res.type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`);
+  } catch (err) {
+    next(err);
+  }
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain').send(
+    ['User-agent: *', 'Disallow: /admin', 'Disallow: /api/', 'Disallow: /Exmaple Files/', '', `Sitemap: ${SITE_URL}/sitemap.xml`, ''].join('\n')
+  );
+});
+
+// ---------------------------------------------------------------------------
 // Pages
 // ---------------------------------------------------------------------------
 
